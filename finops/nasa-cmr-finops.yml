@@ -1,0 +1,78 @@
+name: NASA CMR FinOps
+description: >
+  Financial operations guidance for NASA Common Metadata Repository (CMR) APIs.
+  CMR is a free public service operated by NASA/EOSDIS under a U.S. government
+  mandate for open Earth science data access. There are no fees for consumers
+  searching or discovering metadata, nor for authorized providers ingesting
+  metadata records.
+url: https://www.earthdata.nasa.gov/about/esdis/eosdis/cmr
+
+cost:
+  model: free
+  currency: USD
+  notes: >
+    All CMR APIs — Search, Ingest, Access Control, GraphQL, STAC, and
+    OpenSearch — are provided at no charge. NASA funds CMR operations as
+    part of the Earth Observing System Data and Information System (EOSDIS).
+    There are no per-request charges, subscription fees, or overage penalties
+    for any tier of access.
+
+considerations:
+
+  - category: Earthdata Login (EDL) Registration
+    description: >
+      Registering for an EDL account at urs.earthdata.nasa.gov is free and
+      requires only a name and email address. The resulting Bearer Token
+      unlocks access to restricted collections and, with provider authorization,
+      metadata ingest capabilities. Tokens expire after 30 days and must be
+      renewed at no cost.
+
+  - category: Data Access (Downstream)
+    description: >
+      CMR provides metadata only; actual Earth science data files reside at
+      NASA DAACs (Distributed Active Archive Centers) and, increasingly, in
+      AWS S3 buckets via NASA Earthdata Cloud. Downloading granule files may
+      incur egress charges on a requester-pays basis depending on the DAAC
+      and S3 access method used. CMR metadata discovery itself is always free.
+
+  - category: Self-Hosted / Mirror Deployments
+    description: >
+      CMR is open-source (github.com/nasa/Common-Metadata-Repository).
+      Organizations operating their own CMR instance — for testing or
+      air-gapped environments — are responsible for their own infrastructure
+      costs (compute, storage, Elasticsearch/OpenSearch, network egress).
+
+  - category: STAC API Cloud Costs
+    description: >
+      CMR-CLOUDSTAC surfaces only cloud-hosted granule assets (S3). When
+      applications retrieve STAC items and then access the underlying S3 data,
+      standard AWS egress and request pricing applies to the data transfer.
+      The STAC API query itself is free.
+
+  - category: Provider Ingest Infrastructure
+    description: >
+      Data providers ingesting metadata into CMR via the Ingest API incur no
+      CMR-side charges. Providers are responsible for their own systems used
+      to generate and transmit UMM-format metadata records.
+
+optimization:
+  - tip: >
+      Use CMR-Search-After header for stateless deep paging rather than
+      deprecated scroll sessions; this avoids holding server-side state
+      and reduces the risk of throttling on long-running harvests.
+  - tip: >
+      Request only the fields you need via the fields parameter to reduce
+      response payload size and improve throughput on large bulk harvests.
+  - tip: >
+      Use POST instead of GET for complex spatial queries; this avoids
+      URL length limits and allows richer query expressions without encoding overhead.
+  - tip: >
+      Cache provider and collection-level responses where appropriate; CMR
+      collection metadata changes infrequently compared to granule-level records.
+  - tip: >
+      Include a Client-Id header in all requests so NASA can identify your
+      traffic pattern and proactively assist if throttling occurs during
+      high-volume operations.
+  - tip: >
+      Use the CMR STAC or GraphQL APIs for applications that benefit from
+      standardized interfaces; this reduces custom parsing and integration costs.

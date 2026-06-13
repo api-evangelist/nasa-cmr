@@ -1,0 +1,84 @@
+name: NASA CMR Rate Limits
+description: >
+  Rate limiting details for the NASA Common Metadata Repository (CMR) APIs.
+  CMR Search enforces throttling rules per request signature to maintain
+  system availability. Specific numeric thresholds are not published; clients
+  must honor 429 responses with the retry-after header.
+url: https://cmr.earthdata.nasa.gov/search/site/docs/search/api.html
+
+limits:
+
+  - plan: Public Search (Anonymous)
+    type: throttling
+    scope: request signature / IP
+    notes: >
+      CMR Search deploys rate throttling rules targeting specific request
+      signatures to prevent system degradation. No fixed request-per-second
+      figure is published. 429 errors include a retry-after header; clients
+      must honor this value before retrying.
+
+  - plan: Authenticated Search (EDL Token)
+    type: throttling
+    scope: request signature / token
+    notes: >
+      Same throttling framework applies to authenticated requests. EDL tokens
+      do not unlock a separate higher-rate tier for search; authentication
+      primarily controls access to restricted content.
+
+  - plan: All Plans
+    type: request-timeout
+    value: 180
+    unit: seconds
+    notes: >
+      Hard request timeout is 180 seconds. An internal query timeout of
+      170 seconds returns partial results with a warning header rather than
+      an error, allowing clients to page through large result sets.
+
+  - plan: All Plans
+    type: page-size
+    max: 2000
+    default: 10
+    notes: >
+      Maximum page size is 2,000 results per request. Default is 10.
+      Deep paging beyond 1 million items is not supported.
+
+  - plan: All Plans
+    type: deep-paging-limit
+    max: 1000000
+    notes: >
+      Stateless deep paging via the CMR-Search-After response header supports
+      up to 1 million items. The deprecated scroll API has been removed.
+
+  - plan: All Plans
+    type: url-length
+    max: 6000
+    unit: characters
+    notes: >
+      GET requests are limited to 6,000 characters. Browser clients are
+      limited to ~2,000 characters. POST requests should be used for
+      complex queries exceeding these limits.
+
+enforcement:
+  description: >
+    Rate throttling is enforced via HTTP 429 status codes. The retry-after
+    response header specifies the number of seconds to wait before retrying.
+    Clients should implement exponential back-off and include a Client-Id
+    header to help NASA identify and assist high-volume users.
+  headers:
+    - name: retry-after
+      description: Seconds to wait before retrying after a 429 response
+    - name: CMR-Hits
+      description: Total number of matching results for the query
+    - name: CMR-Request-Id
+      description: Unique request identifier for debugging and support
+    - name: Client-Id
+      description: >
+        Recommended request header for identifying your application;
+        helps NASA diagnose issues for specific client traffic
+
+contact:
+  description: >
+    High-volume users or data providers experiencing persistent throttling
+    should contact NASA Earthdata support or post on the Earthdata Forum.
+  url: https://forum.earthdata.nasa.gov/
+  email: support@earthdata.nasa.gov

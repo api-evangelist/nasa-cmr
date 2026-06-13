@@ -1,0 +1,62 @@
+name: NASA CMR Plans and Pricing
+description: >
+  Access plans and pricing for the NASA Common Metadata Repository (CMR) APIs.
+  CMR is a free public service operated by NASA/EOSDIS. All search APIs are
+  publicly accessible without authentication. Write (ingest) access requires
+  registration and provider authorization through NASA Earthdata Login (EDL).
+url: https://www.earthdata.nasa.gov/engage/open-data-services-software/earthdata-developer-portal/cmr-api
+
+plans:
+
+  - name: Public Search (Anonymous)
+    description: >
+      Unauthenticated read access to all public CMR search endpoints including
+      collections, granules, variables, services, tools, and concepts. No
+      registration required. Suitable for open data discovery and exploration
+      of NASA's Earth science catalog.
+    url: https://cmr.earthdata.nasa.gov/search/site/docs/search/api.html
+    free: true
+    features:
+      - Full access to CMR Search REST API
+      - Full access to CMR STAC API
+      - Full access to CMR GraphQL API
+      - Full access to CMR OpenSearch API
+      - Full access to CMR CSW (Collection Catalog Service)
+      - Multiple response formats (JSON, XML, CSV, UMM-JSON, ECHO10, DIF, KML)
+      - Spatial, temporal, and keyword search
+      - Faceted search and autocomplete
+      - Deep paging via CMR-Search-After header
+      - Up to 2,000 results per page
+
+  - name: Authenticated Search (EDL Token)
+    description: >
+      Authenticated search using an Earthdata Login (EDL) Bearer Token.
+      Grants access to restricted and embargoed collections beyond the public
+      catalog. Tokens are free to obtain and valid for 30 days.
+    url: https://urs.earthdata.nasa.gov/
+    free: true
+    features:
+      - All public search capabilities
+      - Access to restricted and embargoed collections
+      - Access to private granule metadata
+      - S3 bucket access listings via Access Control API
+      - EDL Bearer Token required in Authorization header
+      - Token valid for 30 days; renewable at no cost
+
+  - name: Provider Ingest Access
+    description: >
+      Authorized metadata ingestion access for NASA data providers and data
+      partners. Requires registration as a provider with NASA/EOSDIS and
+      assignment of appropriate ACL roles. Enables creating, updating, and
+      deleting collections, granules, variables, services, and tools in CMR.
+    url: https://www.earthdata.nasa.gov/esdis/esco/standards-and-practices/earthdata-metadata-management
+    free: true
+    features:
+      - Create, update, and delete collection metadata
+      - Create, update, and delete granule metadata
+      - Manage variables, services, and tools
+      - Create batch subscriptions for change notifications
+      - Validation endpoints for pre-ingest schema checking
+      - Revision history for all metadata changes
+      - Requires EDL Bearer Token (Level 4 MFA) or Launchpad SAML Token (Level 5)
+      - Provider-specific ACL authorization required
