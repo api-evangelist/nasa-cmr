@@ -1,0 +1,86 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "schema": "https://schema.org/",
+    "dct": "http://purl.org/dc/terms/",
+    "owl": "http://www.w3.org/2002/07/owl#",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "geo": "http://www.opengis.net/ont/geosparql#",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "nasa": "https://www.earthdata.nasa.gov/ns/",
+    "cmr": "https://cmr.earthdata.nasa.gov/ns/",
+    "Collection": {
+      "@id": "dcat:Dataset",
+      "@type": "@id"
+    },
+    "Granule": {
+      "@id": "dcat:Distribution",
+      "@type": "@id"
+    },
+    "ShortName": {
+      "@id": "dct:identifier"
+    },
+    "Version": {
+      "@id": "owl:versionInfo"
+    },
+    "EntryTitle": {
+      "@id": "dct:title"
+    },
+    "Abstract": {
+      "@id": "dct:description"
+    },
+    "DOI": {
+      "@id": "dct:identifier"
+    },
+    "ProcessingLevel": {
+      "@id": "dcat:hasQualityAnnotation"
+    },
+    "Platforms": {
+      "@id": "dcat:hadRole"
+    },
+    "DataCenters": {
+      "@id": "dct:publisher",
+      "@type": "@id"
+    },
+    "TemporalExtents": {
+      "@id": "dct:temporal"
+    },
+    "SpatialExtent": {
+      "@id": "dct:spatial"
+    },
+    "RelatedUrls": {
+      "@id": "dcat:distribution",
+      "@type": "@id"
+    },
+    "ConceptId": {
+      "@id": "cmr:conceptId"
+    },
+    "ProviderId": {
+      "@id": "cmr:providerId"
+    },
+    "RevisionDate": {
+      "@id": "dct:modified",
+      "@type": "xsd:dateTime"
+    },
+    "ScienceKeywords": {
+      "@id": "dcat:theme",
+      "@type": "@id"
+    },
+    "StacCollection": {
+      "@id": "dcat:Catalog"
+    },
+    "StacItem": {
+      "@id": "dcat:Dataset"
+    },
+    "bbox": {
+      "@id": "dct:spatial"
+    },
+    "geometry": {
+      "@id": "geo:hasGeometry"
+    },
+    "properties": {
+      "@id": "schema:additionalProperty"
+    }
+  }
+}

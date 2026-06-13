@@ -1,0 +1,27 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/nasa-cmr/main/json-schema/nasa-cmr-stac-searchBody.json",
+  "title": "NASA CMR STAC Searchbody",
+  "description": "The search criteria",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "#/components/schemas/bboxFilter"
+    },
+    {
+      "$ref": "#/components/schemas/datetimeFilter"
+    },
+    {
+      "$ref": "#/components/schemas/intersectsFilter"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "example": 10
+        }
+      }
+    }
+  ]
+}

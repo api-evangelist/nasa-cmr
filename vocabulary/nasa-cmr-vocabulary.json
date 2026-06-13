@@ -1,0 +1,164 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "NASA CMR Vocabulary",
+  "description": "Domain vocabulary and controlled terms for the NASA Common Metadata Repository",
+  "version": "1.0.0",
+  "source": "https://www.earthdata.nasa.gov/engage/open-data-services-software/earthdata-developer-portal/cmr-api",
+  "terms": {
+    "conceptTypes": {
+      "description": "Types of metadata concepts stored in CMR",
+      "values": [
+        "collection",
+        "granule",
+        "variable",
+        "service",
+        "tool",
+        "subscription",
+        "tag",
+        "acl",
+        "group"
+      ]
+    },
+    "outputFormats": {
+      "description": "Supported output formats for CMR Search API",
+      "values": [
+        "application/json",
+        "application/vnd.nasa.cmr.umm+json",
+        "application/xml",
+        "application/echo10+xml",
+        "application/dif+xml",
+        "application/dif10+xml",
+        "application/iso19115+xml",
+        "text/csv",
+        "application/vnd.google-earth.kml+xml",
+        "application/opendata+json"
+      ]
+    },
+    "spatialKeywords": {
+      "description": "Common spatial parameters for CMR Search",
+      "values": [
+        "bounding_box",
+        "polygon",
+        "point",
+        "line",
+        "circle",
+        "spatial_keyword"
+      ]
+    },
+    "temporalParameters": {
+      "description": "Temporal search parameters",
+      "values": [
+        "temporal",
+        "updated_since",
+        "revision_date",
+        "created_at",
+        "production_date"
+      ]
+    },
+    "platformTypes": {
+      "description": "Common Earth observation platform types",
+      "values": [
+        "Earth Observation Satellites",
+        "Aircraft",
+        "In Situ Land-based Platforms",
+        "In Situ Ocean-based Platforms",
+        "Interplanetary Spacecraft",
+        "Maps/Charts/Photographs",
+        "Models/Analyses",
+        "Solar/Space Observation Satellites"
+      ]
+    },
+    "processingLevels": {
+      "description": "NASA data processing levels",
+      "values": [
+        "Not provided",
+        "Level 0",
+        "Level 1",
+        "Level 1A",
+        "Level 1B",
+        "Level 2",
+        "Level 2G",
+        "Level 2P",
+        "Level 3",
+        "Level 4",
+        "Level NA"
+      ]
+    },
+    "scienceKeywords": {
+      "description": "Top-level GCMD science keyword categories",
+      "values": [
+        "AGRICULTURE",
+        "ATMOSPHERE",
+        "BIOSPHERE",
+        "CLIMATE INDICATORS",
+        "CRYOSPHERE",
+        "HUMAN DIMENSIONS",
+        "LAND SURFACE",
+        "OCEANS",
+        "PALEOCLIMATE",
+        "SOLID EARTH",
+        "SPECTRAL/ENGINEERING",
+        "SUN-EARTH INTERACTIONS",
+        "TERRESTRIAL HYDROSPHERE"
+      ]
+    },
+    "authenticationTypes": {
+      "description": "Authentication methods supported by CMR APIs",
+      "values": [
+        "EDL Bearer Token",
+        "Launchpad SAML token",
+        "None (public access)"
+      ]
+    },
+    "sortKeys": {
+      "description": "Available sort keys for CMR Search results",
+      "values": [
+        "entry_title",
+        "data_set_id",
+        "short_name",
+        "version",
+        "start_date",
+        "end_date",
+        "platform",
+        "instrument",
+        "provider",
+        "score",
+        "revision_date",
+        "usage_score",
+        "ongoing",
+        "concept_id"
+      ]
+    },
+    "facetFields": {
+      "description": "Facet fields available in CMR collection search",
+      "values": [
+        "science_keywords_h",
+        "platforms_h",
+        "instruments_h",
+        "data_centers_h",
+        "location_keywords_h",
+        "project_h",
+        "processing_level_id_h",
+        "variables_h",
+        "granule_data_format_h",
+        "two_d_coordinate_system_name"
+      ]
+    },
+    "dataCenters": {
+      "description": "Key NASA Distributed Active Archive Centers (DAACs)",
+      "values": [
+        "NSIDC_ECS",
+        "LPCLOUD",
+        "GES_DISC",
+        "ORNL_CLOUD",
+        "OBDAAC",
+        "LAADS",
+        "GHRC_DAAC",
+        "ASDC",
+        "ASF",
+        "PO.DAAC",
+        "SEDAC"
+      ]
+    }
+  }
+}

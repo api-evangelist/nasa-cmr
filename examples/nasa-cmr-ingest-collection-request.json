@@ -1,0 +1,63 @@
+{
+  "MetadataSpecification": {
+    "URL": "https://cdn.earthdata.nasa.gov/umm/collection/v1.17.2",
+    "Name": "UMM-C",
+    "Version": "1.17.2"
+  },
+  "ShortName": "EXAMPLE_COLLECTION",
+  "Version": "1",
+  "EntryTitle": "Example Collection for CMR Ingest",
+  "Abstract": "This is an example collection record for ingesting into the NASA Common Metadata Repository.",
+  "DOI": {
+    "DOI": "10.5067/EXAMPLE/001",
+    "Authority": "https://doi.org"
+  },
+  "SpatialExtent": {
+    "HorizontalSpatialDomain": {
+      "Geometry": {
+        "CoordinateSystem": "CARTESIAN",
+        "BoundingRectangles": [
+          {
+            "WestBoundingCoordinate": -180.0,
+            "NorthBoundingCoordinate": 90.0,
+            "EastBoundingCoordinate": 180.0,
+            "SouthBoundingCoordinate": -90.0
+          }
+        ]
+      }
+    }
+  },
+  "TemporalExtents": [
+    {
+      "EndsAtPresentFlag": true,
+      "RangeDateTimes": [
+        {
+          "BeginningDateTime": "2020-01-01T00:00:00.000Z"
+        }
+      ]
+    }
+  ],
+  "Platforms": [
+    {
+      "Type": "Earth Observation Satellites",
+      "ShortName": "Terra",
+      "LongName": "Earth Observing System, Terra (AM-1)",
+      "Instruments": [
+        {
+          "ShortName": "MODIS",
+          "LongName": "Moderate-Resolution Imaging Spectroradiometer"
+        }
+      ]
+    }
+  ],
+  "DataCenters": [
+    {
+      "Roles": [
+        "ARCHIVER",
+        "DISTRIBUTOR"
+      ],
+      "ShortName": "EXAMPLE_DAAC",
+      "LongName": "Example Distributed Active Archive Center"
+    }
+  ]
+}

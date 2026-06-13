@@ -1,0 +1,51 @@
+{
+  "hits": 12345,
+  "took": 12,
+  "items": [
+    {
+      "meta": {
+        "revision-id": 1,
+        "deleted": false,
+        "format": "application/vnd.nasa.cmr.umm+json",
+        "provider-id": "LPCLOUD",
+        "user-id": "system",
+        "concept-type": "collection",
+        "concept-id": "C1200000000-LPCLOUD",
+        "revision-date": "2023-01-01T00:00:00.000Z",
+        "native-id": "EXAMPLE_COLLECTION_001"
+      },
+      "umm": {
+        "ShortName": "MOD09GA",
+        "Version": "006",
+        "EntryTitle": "MODIS/Terra Surface Reflectance Daily L2G Global 1km and 500m SIN Grid V006",
+        "Abstract": "The MOD09GA Version 6 product provides an estimate of the surface spectral reflectance of Terra MODIS Bands 1 through 7 corrected for atmospheric conditions.",
+        "DOI": {
+          "DOI": "10.5067/MODIS/MOD09GA.006",
+          "Authority": "https://doi.org"
+        },
+        "SpatialExtent": {
+          "GlobalCoverage": true
+        },
+        "TemporalExtents": [
+          {
+            "EndsAtPresentFlag": true,
+            "RangeDateTimes": [
+              {
+                "BeginningDateTime": "2000-02-24T00:00:00.000Z"
+              }
+            ]
+          }
+        ],
+        "DataCenters": [
+          {
+            "Roles": [
+              "ARCHIVER"
+            ],
+            "ShortName": "LP DAAC",
+            "LongName": "Land Processes Distributed Active Archive Center"
+          }
+        ]
+      }
+    }
+  ]
+}

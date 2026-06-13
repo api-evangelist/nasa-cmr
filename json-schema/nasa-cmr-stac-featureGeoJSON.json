@@ -1,0 +1,43 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/nasa-cmr/main/json-schema/nasa-cmr-stac-featureGeoJSON.json",
+  "title": "NASA CMR STAC Featuregeojson",
+  "description": "JSON Schema for NASA CMR STAC featureGeoJSON",
+  "type": "object",
+  "required": [
+    "type",
+    "geometry",
+    "properties"
+  ],
+  "properties": {
+    "type": {
+      "type": "string",
+      "enum": [
+        "Feature"
+      ]
+    },
+    "geometry": {
+      "$ref": "#/components/schemas/geometryGeoJSON"
+    },
+    "properties": {
+      "type": "object",
+      "nullable": true
+    },
+    "id": {
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "integer"
+        }
+      ]
+    },
+    "links": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/link"
+      }
+    }
+  }
+}

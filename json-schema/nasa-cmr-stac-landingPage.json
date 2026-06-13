@@ -1,0 +1,26 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/nasa-cmr/main/json-schema/nasa-cmr-stac-landingPage.json",
+  "title": "NASA CMR STAC Landingpage",
+  "description": "JSON Schema for NASA CMR STAC landingPage",
+  "type": "object",
+  "required": [
+    "links"
+  ],
+  "properties": {
+    "title": {
+      "type": "string",
+      "example": "Buildings in Bonn"
+    },
+    "description": {
+      "type": "string",
+      "example": "Access to data about buildings in the city of Bonn via a Web API that conforms to the OGC API Features specification."
+    },
+    "links": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/link"
+      }
+    }
+  }
+}

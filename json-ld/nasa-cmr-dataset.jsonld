@@ -1,0 +1,69 @@
+{
+  "@context": {
+    "@vocab": "https://schema.org/",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "dct": "http://purl.org/dc/terms/"
+  },
+  "@type": "DataCatalog",
+  "@id": "https://cmr.earthdata.nasa.gov",
+  "name": "NASA Common Metadata Repository (CMR)",
+  "description": "NASA's Common Metadata Repository is a high-performance metadata system that catalogs all Earth science data collections and granules at NASA. It provides search, ingest, access control, and discovery interfaces for the full NASA Earthdata catalog.",
+  "url": "https://www.earthdata.nasa.gov/about/esdis/eosdis/cmr",
+  "provider": {
+    "@type": "Organization",
+    "name": "NASA Earth Science Data and Information System (ESDIS)",
+    "url": "https://www.earthdata.nasa.gov",
+    "parentOrganization": {
+      "@type": "Organization",
+      "name": "National Aeronautics and Space Administration (NASA)",
+      "url": "https://www.nasa.gov"
+    }
+  },
+  "license": "https://www.earthdata.nasa.gov/engage/open-data-services-software",
+  "keywords": [
+    "NASA",
+    "Earth Science",
+    "Satellite Data",
+    "Remote Sensing",
+    "Geospatial",
+    "Metadata",
+    "STAC",
+    "OpenSearch"
+  ],
+  "hasPart": [
+    {
+      "@type": "WebAPI",
+      "name": "CMR Search API",
+      "url": "https://cmr.earthdata.nasa.gov/search/site/docs/search/api.html",
+      "endpointUrl": "https://cmr.earthdata.nasa.gov/search",
+      "documentation": "https://cmr.earthdata.nasa.gov/search/site/docs/search/api.html"
+    },
+    {
+      "@type": "WebAPI",
+      "name": "CMR Ingest API",
+      "url": "https://cmr.earthdata.nasa.gov/ingest/site/docs/ingest/api.html",
+      "endpointUrl": "https://cmr.earthdata.nasa.gov/ingest",
+      "documentation": "https://cmr.earthdata.nasa.gov/ingest/site/docs/ingest/api.html"
+    },
+    {
+      "@type": "WebAPI",
+      "name": "CMR STAC API",
+      "url": "https://cmr.earthdata.nasa.gov/stac",
+      "endpointUrl": "https://cmr.earthdata.nasa.gov/stac",
+      "documentation": "https://github.com/nasa/cmr-stac/blob/master/docs/usage/usage.md"
+    },
+    {
+      "@type": "WebAPI",
+      "name": "CMR GraphQL API",
+      "url": "https://graphql.earthdata.nasa.gov/api",
+      "endpointUrl": "https://graphql.earthdata.nasa.gov/api",
+      "documentation": "https://graphql.earthdata.nasa.gov/docs/introduction/introduction/"
+    },
+    {
+      "@type": "WebAPI",
+      "name": "CMR Access Control API",
+      "url": "https://cmr.earthdata.nasa.gov/access-control/site/docs/access-control/api.html",
+      "endpointUrl": "https://cmr.earthdata.nasa.gov/access-control"
+    }
+  ]
+}

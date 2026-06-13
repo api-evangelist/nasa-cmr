@@ -1,0 +1,48 @@
+{
+  "hits": 9876,
+  "took": 8,
+  "items": [
+    {
+      "meta": {
+        "concept-type": "granule",
+        "concept-id": "G1200000001-LPCLOUD",
+        "provider-id": "LPCLOUD",
+        "format": "application/vnd.nasa.cmr.umm+json",
+        "revision-date": "2023-06-15T12:00:00.000Z"
+      },
+      "umm": {
+        "TemporalExtent": {
+          "RangeDateTime": {
+            "BeginningDateTime": "2023-06-01T00:00:00.000Z",
+            "EndingDateTime": "2023-06-01T23:59:59.000Z"
+          }
+        },
+        "SpatialExtent": {
+          "HorizontalSpatialDomain": {
+            "Geometry": {
+              "BoundingRectangles": [
+                {
+                  "WestBoundingCoordinate": -180,
+                  "NorthBoundingCoordinate": 90,
+                  "EastBoundingCoordinate": 180,
+                  "SouthBoundingCoordinate": -90
+                }
+              ]
+            }
+          }
+        },
+        "DataGranule": {
+          "DayNightFlag": "Day",
+          "ProductionDateTime": "2023-06-02T06:00:00.000Z"
+        },
+        "RelatedUrls": [
+          {
+            "URL": "https://data.lpdaac.earthdatacloud.nasa.gov/lp-prod-protected/MOD09GA.006/2023001/MOD09GA.A2023001.h08v05.006.2023002120000.hdf",
+            "Type": "GET DATA",
+            "Subtype": "DATA COLLECTION"
+          }
+        ]
+      }
+    }
+  ]
+}

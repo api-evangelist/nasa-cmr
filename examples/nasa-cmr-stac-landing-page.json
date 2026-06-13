@@ -1,0 +1,38 @@
+{
+  "type": "Catalog",
+  "id": "NASA CMR STAC",
+  "title": "NASA CMR STAC",
+  "description": "NASA CMR SpatioTemporal Asset Catalog",
+  "stac_version": "1.0.0",
+  "conformsTo": [
+    "http://www.opengis.net/spec/ogcapi-features-1/1.0/conf/core",
+    "http://www.opengis.net/spec/ogcapi-features-1/1.0/conf/oas30",
+    "https://api.stacspec.org/v1.0.0/core"
+  ],
+  "links": [
+    {
+      "rel": "self",
+      "href": "https://cmr.earthdata.nasa.gov/stac",
+      "type": "application/json",
+      "title": "NASA CMR STAC"
+    },
+    {
+      "rel": "root",
+      "href": "https://cmr.earthdata.nasa.gov/stac",
+      "type": "application/json",
+      "title": "NASA CMR STAC"
+    },
+    {
+      "rel": "child",
+      "href": "https://cmr.earthdata.nasa.gov/stac/LPCLOUD",
+      "type": "application/json",
+      "title": "LPCLOUD"
+    },
+    {
+      "rel": "child",
+      "href": "https://cmr.earthdata.nasa.gov/stac/GES_DISC",
+      "type": "application/json",
+      "title": "GES_DISC"
+    }
+  ]
+}
