@@ -1,0 +1,2423 @@
+"""
+NASA Common Metadata Repository (CMR) GraphQL API Schema
+Endpoint: https://graphql.earthdata.nasa.gov/api
+Introspected: 2026-06-14
+"""
+
+"""
+The `Boolean` scalar type represents `true` or `false`.
+"""
+scalar Boolean
+
+"""
+The `Float` scalar type represents signed double-precision fractional values as specified by [IEEE 754](https://en.wikipedia.org/wiki/IEEE_floating_point).
+"""
+scalar Float
+
+"""
+The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
+"""
+scalar Int
+
+"""
+The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+"""
+scalar JSON
+
+"""
+The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
+"""
+scalar String
+
+"""
+DraftConceptType must be one of the enum values.
+"""
+enum DraftConceptType {
+  Citation
+  Collection
+  Service
+  Tool
+  Variable
+  Visualization
+}
+
+enum IdentityType {
+  system
+  provider
+  catalog_item
+}
+
+enum OrderOptionScopeType {
+  PROVIDER
+  SYSTEM
+}
+
+enum PermissionUserType {
+  guest
+  registered
+}
+
+interface Relationship {
+  """The type of relationship."""
+  relationshipType: String
+}
+
+"""
+PreviewMetadata can be either a Citation, Collection, Service, Tool, Variable or Visualization.
+"""
+union PreviewMetadata = Citation | Collection | Service | Tool | Variable | Visualization
+
+type Acl {
+  """The unique concept id assigned to the Acl."""
+  conceptId: String
+  """The revision id for the Acl."""
+  revisionId: Int
+  """The type of identity (provider, system, catalog_item)."""
+  identityType: String
+  """The name of the Acl."""
+  name: String
+  """An URL to retrieve the Acl."""
+  location: String
+  """List of groups and their permissions to the catalog item associated with this Acl."""
+  groups: AclGroupList
+  """Identifies sets of catalog items (collections and granules) owned by a provider."""
+  catalogItemIdentity: CatalogItemIdentity
+  """Identifies a system level thing in the CMR."""
+  systemIdentity: JSON
+  """Identifies a type of object owned by a specific provider."""
+  providerIdentity: JSON
+  """Returns the list of collections associated with this Acl."""
+  collections(params: CollectionsInput): CollectionList
+}
+
+type AclGroup {
+  """The unique id assigned to the group."""
+  id: String
+  """The UID of the application that created the group."""
+  appUid: String
+  """The client ID of the application that created the group."""
+  clientId: String
+  """Name of the group."""
+  name: String
+  """Description of the group."""
+  description: String
+  """Is the group shared."""
+  sharedUserGroup: Boolean
+  """Who created the group."""
+  createdBy: String
+  """Tag for the group."""
+  tag: String
+  """List of members of the group."""
+  members: GroupMemberList
+  """List of individual permissions this Group has to the Acl."""
+  permissions: [String]
+  """The type of user this Acl applies to."""
+  userType: String
+}
+
+type AclGroupList {
+  """The number of hits for a given search."""
+  count: Int
+  """The list of group search results."""
+  items: [AclGroup]
+}
+
+type AclList {
+  """The number of hits for a given search."""
+  count: Int
+  """Cursor that points to the/a specific position in a list of requested records."""
+  cursor: String
+  """The list of acl search results."""
+  items: [Acl]
+}
+
+type AclMutationResponse {
+  """The concept id of the draft."""
+  conceptId: String!
+  """The revision id of the draft."""
+  revisionId: String!
+}
+
+"""
+Associations are supported between any of the following concepts, and can be made to any/from any of the concepts
+
+- Tool
+- Variable
+- Service
+- Collections
+- Order Options
+"""
+type AssociationMutationResponse {
+  """The unique id assigned to a CMR concept."""
+  conceptId: String
+  """The revision id of the Association."""
+  revisionId: Int
+  """The unique id assigned to the CMR concept associated with this conceptId"""
+  associatedConceptId: String
+}
+
+type CatalogItemIdentity {
+  """Is collection applicable for a ACL"""
+  collectionApplicable: Boolean
+  """The collection information"""
+  collectionIdentifier: JSON
+  """Is granule applicable for a ACL"""
+  granuleApplicable: Boolean
+  """The granule information"""
+  granuleIdentifier: JSON
+  """The provider id of the permission"""
+  providerId: String
+}
+
+type Citation {
+  """Citation abstract"""
+  abstract: String
+  """Citation metadata for the resource"""
+  citationMetadata: JSON
+  """The unique concept id assigned to the citation."""
+  conceptId: String!
+  """The identifier for the resource, e.g., DOI, ISBN, ARK"""
+  identifier: String
+  """The type of identifier used"""
+  identifierType: String
+  """The name of the cited resource"""
+  name: String
+  """The native id of a to citation."""
+  nativeId: String
+  """The provider of the citation."""
+  providerId: String
+  """URI used to resolve the identifier"""
+  resolutionAuthority: String
+  """List of identifiers that this resource cites, refers to, or is identical to"""
+  relatedIdentifiers: JSON
+  """Date which the Citation was last updated."""
+  revisionDate: String
+  """The revision id of the Citation."""
+  revisionId: String
+  """All revisions of this Citation."""
+  revisions: CitationRevisionList
+  """GCMD science keywords"""
+  scienceKeywords: JSON
+  """Raw UMM Metadata of the Citation Record."""
+  ummMetadata: JSON
+  """Id of the user who modified/published record"""
+  userId: String
+  """Returns a list of associated collections."""
+  collections(params: CollectionsInput): CollectionList
+}
+
+type CitationList {
+  """The number of hits for a given search."""
+  count: Int
+  """Cursor that points to the/a specific position in a list of requested records."""
+  cursor: String
+  """The list of service search results."""
+  items: [Citation]
+}
+
+type CitationMutationResponse {
+  """The unique concept id assigned to the citation."""
+  conceptId: String!
+  """The revision of the citation."""
+  revisionId: String!
+}
+
+type CitationRevisionList {
+  """The number of hits for a given search."""
+  count: Int
+  """The list of citation search results."""
+  items: [Citation]
+}
+
+type Collection {
+  """A brief description of the collection the metadata represents."""
+  abstract: String
+  """Allows the author to constrain access to the collection. This includes any special restrictions, legal prerequisites, limitations and/or warnings on obtaining collection data. Some words that may be used in this element's value include: Public, In-house, Limited, None. The value field is used for special ACL rules (Access Control Lists (http://en.wikipedia.org/wiki/Access_control_list)). For example it can be used to hide metadata when it isn't ready for public consumption."""
+  accessConstraints: JSON
+  """The data’s distinctive attributes of the collection (i.e. attributes used to describe the unique characteristics of the collection which extend beyond those defined)."""
+  additionalAttributes: JSON
+  """The list of concepts and any data on the relationship between this collection and other permitted concepts"""
+  associationDetails: JSON
+  """This element stores DOIs that are associated with the collection such as from campaigns and other related sources."""
+  associatedDois: JSON
+  """Find collections matching 'archive_center' param value.
+
+Note: This field is not supported if you are performing a `collection` query and have provided the `revisionId` parameter. `null` will be returned."""
+  archiveCenter: String
+  """Allows authors to provide words or phrases outside of the controlled Science Keyword vocabulary, to further describe the collection."""
+  ancillaryKeywords: [String]
+  """Allows a data provider to provide archive and distribution information up front to an end user, to help them decide if they can use the product."""
+  archiveAndDistributionInformation: JSON
+  """Spatial coverage of the collection.
+
+Note: This field is not supported if you are performing a `collection` query and have provided the `revisionId` parameter. `null` will be returned."""
+  boxes: [String]
+  """True if the metadata contains browse imagery.
+
+Note: This field is not supported if you are performing a `collection` query and have provided the `revisionId` parameter. `null` will be returned."""
+  browseFlag: Boolean
+  """Data hosted in the cloud.
+
+Note: This field is not supported if you are performing a `collection` query and have provided the `revisionId` parameter. `null` will be returned."""
+  cloudHosted: Boolean
+  """The unique concept id assigned to the collection."""
+  conceptId: String!
+  """Consortiums the collection is associated to.
+
+Note: This field is not supported if you are performing a `collection` query and have provided the `revisionId` parameter. `null` will be returned."""
+  consortiums: [String]
+  """Information required to properly cite the collection in professional scientific literature."""
+  collectionCitations: JSON
+  """Data type of the collection, e.g. NEAR_REAL_TIME"""
+  collectionDataType: String
+  """This element describes the production status of the data set."""
+  collectionProgress: String
+  """Information about the personnel groups responsible for this collection and its metadata."""
+  contactGroups: JSON
+  """Information about the personnel responsible for this collection and its metadata."""
+  contactPersons: JSON
+  """Coordinate system of the metadata.
+
+Note: This field is not supported if you are performing a `collection` query and have provided the `revisionId` parameter. `null` will be returned."""
+  coordinateSystem: String
+  """Information about the data centers responsible for this collection and its metadata."""
+  dataCenters: JSON
+  """Dates related to activities involving the collection data."""
+  dataDates: JSON
+  """Describes the language used in the preparation, storage, and description of the collection. It is the language of the collection data themselves.   It does not refer to the language used in the metadata record (although this may be the same language)."""
+  dataLanguage: String
+  """The Data Maturity element is used to inform users on where the collection is in a collection's life cycle."""
+  dataMaturity: String
+  """This element allows end users to get direct access to data products that are stored in the Amazon Web Service (AWS) S3 buckets. The sub elements include S3 credentials end point and a documentation URL as well as bucket prefix names and an AWS region."""
+  directDistributionInformation: JSON
+  """Formerly called Internal Directory Name (IDN) Node (IDN_Node). This element has been used historically by the GCMD internally to identify association, responsibility and/or ownership of the dataset, service or supplemental information. Note: This field only occurs in the DIF. When a DIF record is retrieved in the ECHO10 or ISO 19115 formats, this element will not be translated. The controlled vocabulary for directory names is maintained in the Keyword Management System (KMS)."""
+  directoryNames: JSON
+  """This element stores the DOI (Digital Object Identifier) that identifies the collection. note: The values should start with the directory indicator which in ESDIS' case is 10.  If the DOI was registered through ESDIS, the beginning of the string should be 10.5067. The DOI URL is not stored here; it should be stored as a RelatedURL. The DOI organization that is responsible for creating the DOI is described in the Authority element. For ESDIS records the value of https://doi.org/ should be used. While this element is not required, NASA metadata providers are strongly encouraged to include DOI and DOI Authority for their collections."""
+  doi: JSON
+  """The title of the collection described by the metadata.
+
+Note: This field is not supported if you are performing a `collection` query and have provided the `revisionId` parameter. `null` will be returned."""
+  datasetId: String
+  """Entry Id is the concatenation of short name, an underscore, and version of the corresponding collection
+
+Note: This field is not supported if you are performing a `collection` query and have provided the `revisionId` parameter. `null` will be returned."""
+  entryId: String
+  """The File Naming Convention refers to the naming convention of the data set's (Collection's) data files along with a description of the granule file construction."""
+  fileNamingConvention: JSON
+  """An array containing all of the different formats of the underlying data of a collection."""
+  nativeDataFormats: [String]
+  """True if there are multiple supported formats for any services associated with the collection."""
+  hasFormats: Boolean
+  """True if there are granules associated with the collection.
+
+Note: This field is not supported if you are performing a `collection` query and have provided the `revisionId` parameter. `null` will be returned."""
+  hasGranules: Boolean
+  """True if any of its associated services support spatial subsetting."""
+  hasSpatialSubsetting: Boolean
+  """True if any of its associated services support temporal subsetting."""
+  hasTemporalSubsetting: Boolean
+  """True if there are transformations (subset, interpolation or projection) in any of its associated services."""
+  hasTransforms: Boolean
+  """True if there are variables associated with the collection."""
+  hasVariables: Boolean
+  """Identifies the topic categories from the EN ISO 19115-1:2014 Geographic Information – Metadata – Part 1: Fundamentals (http://www.isotc211.org/) Topic Category Code List that pertain to this collection, based on the Science Keywords associated with the collection. An ISO Topic Category is a high-level thematic classification to assist in the grouping of and search for available collections. The controlled vocabulary for ISO topic categories is maintained in the Keyword Management System (KMS)."""
+  isoTopicCategories: [String]
+  """This element is used to identify other services, collections, visualizations, granules, and other metadata types and resources that are associated with or dependent on the data described by the metadata. This element is also used to identify a parent metadata record if it exists. This usage should be reserved for instances where a group of metadata records are subsets that can be better represented by one parent metadata record, which describes the entire set. In some instances, a child may point to more than one parent. The EntryId is the same as the element described elsewhere in this document where it contains an ID and Version."""
+  metadataAssociations: JSON
+  """Dates related to activities involving the metadata record itself."""
+  metadataDates: JSON
+  """The language used in the metadata record."""
+  metadataLanguage: String
+  """The format of original collection metadata (Known in CMR as original format).
+
+Note: This field is not supported if you are performing a `collection` query and have provided the `revisionId` parameter. `null` will be returned."""
+  metadataFormat: String
+  """True if the data is available online.
+
+Note: This field is not supported if you are performing a `collection` query and have provided the `revisionId` parameter. `null` will be returned."""
+  onlineAccessFlag: Boolean
+  """Organizations associated with the metadata, including data centers.
+
+Note: This field is not supported if you are performing a `collection` query and have provided the `revisionId` parameter. `null` will be returned."""
+  organizations: [String]
+  """Spatial coverage of the collection.
+
+Note: This field is not supported if you are performing a `collection` query and have provided the `revisionId` parameter. `null` will be returned."""
+  lines: [String]
+  """Provides additional or provider defined identifiers of the collection."""
+  otherIdentifiers: JSON
+  """Controlled hierarchical keywords used to specify the spatial location of the collection.   The controlled vocabulary for spatial keywords is maintained in the Keyword Management System (KMS).  The Spatial Keyword hierarchy includes one or more of the following layers: Category (e.g., Continent), Type (e.g. Africa), Subregion1 (e.g., Central Africa), Subregion2 (e.g., Cameroon), and Subregion3. DetailedLocation exists outside the hierarchy."""
+  locationKeywords: JSON
+  """For paleoclimate or geologic data, PaleoTemporalCoverage is the length of time represented by the data collected. PaleoTemporalCoverage should be used when the data spans time frames earlier than yyyy-mm-dd = 0001-01-01."""
+  paleoTemporalCoverages: JSON
+  """Information about the relevant platform(s) used to acquire the data in the collection. The controlled vocabulary for platform types is maintained in the Keyword Management System (KMS), and includes Spacecraft, Aircraft, Vessel, Buoy, Platform, Station, Network, Human, etc."""
+  platforms: JSON
+  """Spatial coverage of the collection.
+
+Note: This field is not supported if you are performing a `collection` query and have provided the `revisionId` parameter. `null` will be returned."""
+  points: [String]
+  """Spatial coverage of the collection.
+
+Note: This field is not supported if you are performing a `collection` query and have provided the `revisionId` parameter. `null` will be returned."""
+  polygons: [[String]]
+  """The name of the scientific program, field campaign, or project from which the data were collected."""
+  projects: JSON
+  """The identity of the provider in the CMR."""
+  provider: String
+  """Describes key bibliographic citations pertaining to the collection."""
+  publicationReferences: JSON
+  """Free text description of the quality of the collection data."""
+  quality: String
+  """The native id to set on the collection."""
+  nativeId: String!
+  """The identifier for the processing level of the collection."""
+  processingLevel: JSON
+  """Suggested usage or purpose for the collection data or service."""
+  purpose: String
+  """Date which the Collection was last updated."""
+  revisionDate: String
+  """The revision id of the Collection."""
+  revisionId: String
+  """Describes any data/service related URLs that include project home pages, services, related data archives/servers, metadata extensions, direct links to online software packages, web mapping services, links to images, or other data."""
+  relatedUrls: JSON
+  """Controlled Science Keywords describing the collection.  The controlled vocabulary for Science Keywords is maintained in the Keyword Management System (KMS)."""
+  scienceKeywords: JSON
+  """Find collections matching any of the 'short_name' param values."""
+  shortName: String
+  """Specifies the geographic and vertical (altitude, depth) coverage of the data."""
+  spatialExtent: JSON
+  """The reference frame or system in which altitudes (elevations) are given. The information contains the datum name, distance units and encoding method, which provide the definition for the system. This field also stores the characteristics of the reference frame or system from which depths are measured. The additional information in the field is geometry reference data etc."""
+  spatialInformation: JSON
+  """This element is reserved for NASA records only. A Standard Product is a product that has been vetted to ensure that they are complete, consistent, maintain integrity, and satifies the goals of the Earth Observing System mission. The NASA product owners have also commmitted to archiving and maintaining the data products. More information can be found here: https://earthdata.nasa.gov/eosdis/science-system-description/eosdis-standard-products."""
+  standardProduct: Boolean
+  """Tags associated with the collection. It includes sub-elements of tagKey and optional data which is in embedded JSON.
+
+Note: This field is not supported if you are performing a `collection` query and have provided the `revisionId` parameter. `null` will be returned."""
+  tags: JSON
+  """This class contains attributes which describe the temporal range of a specific collection. Temporal Extent includes a specification of the Temporal Range Type of the collection, which is one of Range Date Time, Single Date Time, or Periodic Date Time."""
+  temporalExtents: JSON
+  """One or more words or phrases that describe the temporal resolution of the dataset."""
+  temporalKeywords: [String]
+  """Name of the two-dimensional tiling system for the collection."""
+  tilingIdentificationSystems: JSON
+  """Start time of the metadata.
+
+Note: This field is not supported if you are performing a `collection` query and have provided the `revisionId` parameter. `null` will be returned."""
+  timeStart: String
+  """End time of the metadata.
+
+Note: This field is not supported if you are performing a `collection` query and have provided the `revisionId` parameter. `null` will be returned."""
+  timeEnd: String
+  """The title of the collection described by the metadata."""
+  title: String
+  """Raw UMM Metadata of the Collection Record."""
+  ummMetadata: JSON
+  """Designed to protect privacy and/or intellectual property by allowing the author to specify how the collection may or may not be used after access is granted. This includes any special restrictions, legal prerequisites, terms and conditions, and/or limitations on using the item. Providers may request acknowledgement of the item from users and claim no responsibility for quality and completeness. Note: Use Constraints describe how the item may be used once access has been granted; and is distinct from Access Constraints, which refers to any constraints in accessing the item."""
+  useConstraints: JSON
+  """Id of the user who modified/published record"""
+  userId: String
+  """The version description of the collection."""
+  versionDescription: String
+  """The Version of the collection."""
+  version: String
+  """All revisions of this Collection."""
+  revisions: CollectionRevisionList
+  """Returns the list of collections related to this collection."""
+  relatedCollections(params: RelatedCollectionsInput): RelatedCollectionsList
+  """Returns possible duplicate collections based on matching metadata"""
+  duplicateCollections: DuplicateCollectionList
+  """Returns the list of granules associated with the collection.
+
+A subset of the supported arguments for Collections will be passed through to the granule query by default. Those arguments are as follows:
+
+- boundingBox
+- circle
+- point
+- polygon
+- temporal"""
+  granules(params: GranulesInput): GranuleList
+  """Returns the list of services associated with the collection."""
+  services(params: ServicesInput): ServiceList
+  """Returns the list of subscriptions associated with the collection."""
+  subscriptions(params: SubscriptionsInput): SubscriptionList
+  """Returns the list of tag definitions associated with the collection."""
+  tagDefinitions(params: TagDefinitionsInput): TagDefinitionList
+  """Returns the list of tools associated with the collection."""
+  tools(params: ToolsInput): ToolList
+  """Returns the list of variables associated with the collection."""
+  variables(params: VariablesInput): VariableList
+  """Returns a list of associated visualizations."""
+  visualizations(params: VisualizationsInput): VisualizationList
+  """Returns a list of associated citations from CMR."""
+  citations(params: CitationsInput): CitationList
+  """Generates variable drafts on the collection using earthdata-varinfo"""
+  generateVariableDrafts: VariableDraftList
+  """Returns the list of data quality summaries associated with the collection."""
+  dataQualitySummaries(params: DataQualitySummariesInput): DataQualitySummaryList
+}
+
+type CollectionDraft {
+  """A brief description of the collection the metadata represents."""
+  abstract: String
+  """Allows the author to constrain access to the collection. This includes any special restrictions, legal prerequisites, limitations and/or warnings on obtaining collection data. Some words that may be used in this element's value include: Public, In-house, Limited, None. The value field is used for special ACL rules (Access Control Lists (http://en.wikipedia.org/wiki/Access_control_list)). For example it can be used to hide metadata when it isn't ready for public consumption."""
+  accessConstraints: JSON
+  """The data’s distinctive attributes of the collection (i.e. attributes used to describe the unique characteristics of the collection which extend beyond those defined)."""
+  additionalAttributes: JSON
+  """Allows authors to provide words or phrases outside of the controlled Science Keyword vocabulary, to further describe the collection."""
+  ancillaryKeywords: [String]
+  """Allows a data provider to provide archive and distribution information up front to an end user, to help them decide if they can use the product."""
+  archiveAndDistributionInformation: JSON
+  """This element stores DOIs that are associated with the collection such as from campaigns and other related sources."""
+  associatedDois: JSON
+  """Information required to properly cite the collection in professional scientific literature."""
+  collectionCitations: JSON
+  """Data type of the collection, e.g. NEAR_REAL_TIME"""
+  collectionDataType: String
+  """This element describes the production status of the data set."""
+  collectionProgress: String
+  """Information about the personnel groups responsible for this collection and its metadata."""
+  contactGroups: JSON
+  """Information about the personnel responsible for this collection and its metadata."""
+  contactPersons: JSON
+  """Information about the data centers responsible for this collection and its metadata."""
+  dataCenters: JSON
+  """Dates related to activities involving the collection data."""
+  dataDates: JSON
+  """Describes the language used in the preparation, storage, and description of the collection. It is the language of the collection data themselves.   It does not refer to the language used in the metadata record (although this may be the same language)."""
+  dataLanguage: String
+  """This element allows end users to get direct access to data products that are stored in the Amazon Web Service (AWS) S3 buckets. The sub elements include S3 credentials end point and a documentation URL as well as bucket prefix names and an AWS region."""
+  directDistributionInformation: JSON
+  """Formerly called Internal Directory Name (IDN) Node (IDN_Node). This element has been used historically by the GCMD internally to identify association, responsibility and/or ownership of the dataset, service or supplemental information. Note: This field only occurs in the DIF. When a DIF record is retrieved in the ECHO10 or ISO 19115 formats, this element will not be translated. The controlled vocabulary for directory names is maintained in the Keyword Management System (KMS)."""
+  directoryNames: JSON
+  """This element stores the DOI (Digital Object Identifier) that identifies the collection. note: The values should start with the directory indicator which in ESDIS' case is 10.  If the DOI was registered through ESDIS, the beginning of the string should be 10.5067. The DOI URL is not stored here; it should be stored as a RelatedURL. The DOI organization that is responsible for creating the DOI is described in the Authority element. For ESDIS records the value of https://doi.org/ should be used. While this element is not required, NASA metadata providers are strongly encouraged to include DOI and DOI Authority for their collections."""
+  doi: JSON
+  """Identifies the topic categories from the EN ISO 19115-1:2014 Geographic Information – Metadata – Part 1: Fundamentals (http://www.isotc211.org/) Topic Category Code List that pertain to this collection, based on the Science Keywords associated with the collection. An ISO Topic Category is a high-level thematic classification to assist in the grouping of and search for available collections. The controlled vocabulary for ISO topic categories is maintained in the Keyword Management System (KMS)."""
+  isoTopicCategories: [String]
+  """Controlled hierarchical keywords used to specify the spatial location of the collection.   The controlled vocabulary for spatial keywords is maintained in the Keyword Management System (KMS).  The Spatial Keyword hierarchy includes one or more of the following layers: Category (e.g., Continent), Type (e.g. Africa), Subregion1 (e.g., Central Africa), Subregion2 (e.g., Cameroon), and Subregion3. DetailedLocation exists outside the hierarchy."""
+  locationKeywords: JSON
+  """This element is used to identify other services, collections, visualizations, granules, and other metadata types and resources that are associated with or dependent on the data described by the metadata. This element is also used to identify a parent metadata record if it exists. This usage should be reserved for instances where a group of metadata records are subsets that can be better represented by one parent metadata record, which describes the entire set. In some instances, a child may point to more than one parent. The EntryId is the same as the element described elsewhere in this document where it contains an ID and Version."""
+  metadataAssociations: JSON
+  """Dates related to activities involving the metadata record itself."""
+  metadataDates: JSON
+  """The language used in the metadata record."""
+  metadataLanguage: String
+  """For paleoclimate or geologic data, PaleoTemporalCoverage is the length of time represented by the data collected. PaleoTemporalCoverage should be used when the data spans time frames earlier than yyyy-mm-dd = 0001-01-01."""
+  paleoTemporalCoverages: JSON
+  """Information about the relevant platform(s) used to acquire the data in the collection. The controlled vocabulary for platform types is maintained in the Keyword Management System (KMS), and includes Spacecraft, Aircraft, Vessel, Buoy, Platform, Station, Network, Human, etc."""
+  platforms: JSON
+  """The identifier for the processing level of the collection."""
+  processingLevel: JSON
+  """The name of the scientific program, field campaign, or project from which the data were collected."""
+  projects: JSON
+  """Describes key bibliographic citations pertaining to the collection."""
+  publicationReferences: JSON
+  """Suggested usage or purpose for the collection data or service."""
+  purpose: String
+  """Free text description of the quality of the collection data."""
+  quality: String
+  """Describes any data/service related URLs that include project home pages, services, related data archives/servers, metadata extensions, direct links to online software packages, web mapping services, links to images, or other data."""
+  relatedUrls: JSON
+  """Controlled Science Keywords describing the collection.  The controlled vocabulary for Science Keywords is maintained in the Keyword Management System (KMS)."""
+  scienceKeywords: JSON
+  """Find collections matching any of the 'short_name' param values."""
+  shortName: String
+  """Specifies the geographic and vertical (altitude, depth) coverage of the data."""
+  spatialExtent: JSON
+  """The reference frame or system in which altitudes (elevations) are given. The information contains the datum name, distance units and encoding method, which provide the definition for the system. This field also stores the characteristics of the reference frame or system from which depths are measured. The additional information in the field is geometry reference data etc."""
+  spatialInformation: JSON
+  """This element is reserved for NASA records only. A Standard Product is a product that has been vetted to ensure that they are complete, consistent, maintain integrity, and satifies the goals of the Earth Observing System mission. The NASA product owners have also commmitted to archiving and maintaining the data products. More information can be found here: https://earthdata.nasa.gov/eosdis/science-system-description/eosdis-standard-products."""
+  standardProduct: Boolean
+  """This class contains attributes which describe the temporal range of a specific collection. Temporal Extent includes a specification of the Temporal Range Type of the collection, which is one of Range Date Time, Single Date Time, or Periodic Date Time."""
+  temporalExtents: JSON
+  """One or more words or phrases that describe the temporal resolution of the dataset."""
+  temporalKeywords: [String]
+  """Name of the two-dimensional tiling system for the collection."""
+  tilingIdentificationSystems: JSON
+  """The title of the collection described by the metadata."""
+  title: String
+  """Designed to protect privacy and/or intellectual property by allowing the author to specify how the collection may or may not be used after access is granted. This includes any special restrictions, legal prerequisites, terms and conditions, and/or limitations on using the item. Providers may request acknowledgement of the item from users and claim no responsibility for quality and completeness. Note: Use Constraints describe how the item may be used once access has been granted; and is distinct from Access Constraints, which refers to any constraints in accessing the item."""
+  useConstraints: JSON
+  """The version description of the collection."""
+  versionDescription: String
+  """The Version of the collection."""
+  versionId: String
+}
+
+type CollectionDraftProposal {
+  """A brief description of the collection the metadata represents."""
+  abstract: String
+  """Allows the author to constrain access to the collection. This includes any special restrictions, legal prerequisites, limitations and/or warnings on obtaining collection data. Some words that may be used in this element's value include: Public, In-house, Limited, None. The value field is used for special ACL rules (Access Control Lists (http://en.wikipedia.org/wiki/Access_control_list)). For example it can be used to hide metadata when it isn't ready for public consumption."""
+  accessConstraints: JSON
+  """The data’s distinctive attributes of the collection (i.e. attributes used to describe the unique characteristics of the collection which extend beyond those defined)."""
+  additionalAttributes: JSON
+  """Allows authors to provide words or phrases outside of the controlled Science Keyword vocabulary, to further describe the collection."""
+  ancillaryKeywords: [String]
+  """Allows a data provider to provide archive and distribution information up front to an end user, to help them decide if they can use the product."""
+  archiveAndDistributionInformation: JSON
+  """This element stores DOIs that are associated with the collection such as from campaigns and other related sources."""
+  associatedDois: JSON
+  """Information required to properly cite the collection in professional scientific literature."""
+  collectionCitations: JSON
+  """Data type of the collection, e.g. NEAR_REAL_TIME"""
+  collectionDataType: String
+  """This element describes the production status of the data set."""
+  collectionProgress: String
+  """Information about the personnel groups responsible for this collection and its metadata."""
+  contactGroups: JSON
+  """Information about the personnel responsible for this collection and its metadata."""
+  contactPersons: JSON
+  """Information about the data centers responsible for this collection and its metadata."""
+  dataCenters: JSON
+  """Dates related to activities involving the collection data."""
+  dataDates: JSON
+  """Describes the language used in the preparation, storage, and description of the collection. It is the language of the collection data themselves.   It does not refer to the language used in the metadata record (although this may be the same language)."""
+  dataLanguage: String
+  """This element allows end users to get direct access to data products that are stored in the Amazon Web Service (AWS) S3 buckets. The sub elements include S3 credentials end point and a documentation URL as well as bucket prefix names and an AWS region."""
+  directDistributionInformation: JSON
+  """Formerly called Internal Directory Name (IDN) Node (IDN_Node). This element has been used historically by the GCMD internally to identify association, responsibility and/or ownership of the dataset, service or supplemental information. Note: This field only occurs in the DIF. When a DIF record is retrieved in the ECHO10 or ISO 19115 formats, this element will not be translated. The controlled vocabulary for directory names is maintained in the Keyword Management System (KMS)."""
+  directoryNames: JSON
+  """This element stores the DOI (Digital Object Identifier) that identifies the collection. note: The values should start with the directory indicator which in ESDIS' case is 10.  If the DOI was registered through ESDIS, the beginning of the string should be 10.5067. The DOI URL is not stored here; it should be stored as a RelatedURL. The DOI organization that is responsible for creating the DOI is described in the Authority element. For ESDIS records the value of https://doi.org/ should be used. While this element is not required, NASA metadata providers are strongly encouraged to include DOI and DOI Authority for their collections."""
+  doi: JSON
+  """Identifies the topic categories from the EN ISO 19115-1:2014 Geographic Information – Metadata – Part 1: Fundamentals (http://www.isotc211.org/) Topic Category Code List that pertain to this collection, based on the Science Keywords associated with the collection. An ISO Topic Category is a high-level thematic classification to assist in the grouping of and search for available collections. The controlled vocabulary for ISO topic categories is maintained in the Keyword Management System (KMS)."""
+  isoTopicCategories: [String]
+  """Controlled hierarchical keywords used to specify the spatial location of the collection.   The controlled vocabulary for spatial keywords is maintained in the Keyword Management System (KMS).  The Spatial Keyword hierarchy includes one or more of the following layers: Category (e.g., Continent), Type (e.g. Africa), Subregion1 (e.g., Central Africa), Subregion2 (e.g., Cameroon), and Subregion3. DetailedLocation exists outside the hierarchy."""
+  locationKeywords: JSON
+  """This element is used to identify other services, collections, visualizations, granules, and other metadata types and resources that are associated with or dependent on the data described by the metadata. This element is also used to identify a parent metadata record if it exists. This usage should be reserved for instances where a group of metadata records are subsets that can be better represented by one parent metadata record, which describes the entire set. In some instances, a child may point to more than one parent. The EntryId is the same as the element described elsewhere in this document where it contains an ID and Version."""
+  metadataAssociations: JSON
+  """Dates related to activities involving the metadata record itself."""
+  metadataDates: JSON
+  """The language used in the metadata record."""
+  metadataLanguage: String
+  """For paleoclimate or geologic data, PaleoTemporalCoverage is the length of time represented by the data collected. PaleoTemporalCoverage should be used when the data spans time frames earlier than yyyy-mm-dd = 0001-01-01."""
+  paleoTemporalCoverages: JSON
+  """Information about the relevant platform(s) used to acquire the data in the collection. The controlled vocabulary for platform types is maintained in the Keyword Management System (KMS), and includes Spacecraft, Aircraft, Vessel, Buoy, Platform, Station, Network, Human, etc."""
+  platforms: JSON
+  """The identifier for the processing level of the collection."""
+  processingLevel: JSON
+  """The name of the scientific program, field campaign, or project from which the data were collected."""
+  projects: JSON
+  """Describes key bibliographic citations pertaining to the collection."""
+  publicationReferences: JSON
+  """Suggested usage or purpose for the collection data or service."""
+  purpose: String
+  """Free text description of the quality of the collection data."""
+  quality: String
+  """Describes any data/service related URLs that include project home pages, services, related data archives/servers, metadata extensions, direct links to online software packages, web mapping services, links to images, or other data."""
+  relatedUrls: JSON
+  """Controlled Science Keywords describing the collection.  The controlled vocabulary for Science Keywords is maintained in the Keyword Management System (KMS)."""
+  scienceKeywords: JSON
+  """Find collections matching any of the 'short_name' param values."""
+  shortName: String
+  """Specifies the geographic and vertical (altitude, depth) coverage of the data."""
+  spatialExtent: JSON
+  """The reference frame or system in which altitudes (elevations) are given. The information contains the datum name, distance units and encoding method, which provide the definition for the system. This field also stores the characteristics of the reference frame or system from which depths are measured. The additional information in the field is geometry reference data etc."""
+  spatialInformation: JSON
+  """This element is reserved for NASA records only. A Standard Product is a product that has been vetted to ensure that they are complete, consistent, maintain integrity, and satifies the goals of the Earth Observing System mission. The NASA product owners have also commmitted to archiving and maintaining the data products. More information can be found here: https://earthdata.nasa.gov/eosdis/science-system-description/eosdis-standard-products."""
+  standardProduct: Boolean
+  """This class contains attributes which describe the temporal range of a specific collection. Temporal Extent includes a specification of the Temporal Range Type of the collection, which is one of Range Date Time, Single Date Time, or Periodic Date Time."""
+  temporalExtents: JSON
+  """One or more words or phrases that describe the temporal resolution of the dataset."""
+  temporalKeywords: [String]
+  """Name of the two-dimensional tiling system for the collection."""
+  tilingIdentificationSystems: JSON
+  """The title of the collection described by the metadata."""
+  title: String
+  """Designed to protect privacy and/or intellectual property by allowing the author to specify how the collection may or may not be used after access is granted. This includes any special restrictions, legal prerequisites, terms and conditions, and/or limitations on using the item. Providers may request acknowledgement of the item from users and claim no responsibility for quality and completeness. Note: Use Constraints describe how the item may be used once access has been granted; and is distinct from Access Constraints, which refers to any constraints in accessing the item."""
+  useConstraints: JSON
+  """The version description of the collection."""
+  versionDescription: String
+  """The Version of the collection."""
+  versionId: String
+}
+
+type CollectionList {
+  """The number of hits for a given search."""
+  count: Int
+  """Cursor that points to the/a specific position in a list of requested records."""
+  cursor: String
+  """The list of collection search results."""
+  items: [Collection]
+  """Facets are counts of unique values from fields within items matching search results."""
+  facets: JSON
+}
+
+type CollectionMutationResponse {
+  """The unique concept id assigned to the collection."""
+  conceptId: String!
+  """The revision of the collection."""
+  revisionId: String!
+}
+
+type CollectionRevisionList {
+  """The number of hits for a given search."""
+  count: Int
+  """The list of collection search results."""
+  items: [Collection]
+}
+
+type DataQualitySummary {
+  """The list of concepts and any data on the relationship between this DQS and other permitted concepts."""
+  associationDetails: JSON
+  """The unique concept id assigned to the DQS."""
+  conceptId: String!
+  """The legacy services identifier that was assigned to this DQS."""
+  id: String!
+  """The name associated with the quality summary of the data set."""
+  name: String!
+  """The native id to set on the DQS."""
+  nativeId: String
+  """contains the human readable summary of the quality of the data set."""
+  summary: String!
+}
+
+type DataQualitySummaryList {
+  """The number of hits for a given search."""
+  count: Int
+  """Cursor that points to the/a specific position in a list of requested records."""
+  cursor: String
+  """The list of DataQualitySummary search results."""
+  items: [DataQualitySummary]
+}
+
+"""
+The Draft type utilizes the `PreviewMetadata` union type, which means you can return any of the types supported by the union in the previewMetadata return field. You need to ensure that your conceptType parameter matches the previewMetadata type. For example, If the conceptType parameter is `Tool`, and the syntax in the request will be `... on Tool {`.
+"""
+type Draft {
+  """The concept id of the draft."""
+  conceptId: String
+  """The concept type of the draft."""
+  conceptType: String
+  """If the draft has been deleted."""
+  deleted: Boolean
+  """Name of the draft."""
+  name: String
+  """The native id of the draft."""
+  nativeId: String
+  """Provider ID of the draft."""
+  providerId: String
+  """Date which the draft was last updated."""
+  revisionDate: String
+  """The revision id of the draft."""
+  revisionId: String
+  """The Metadata Preview compatible metadata of the draft."""
+  previewMetadata: PreviewMetadata
+  """Raw UMM Metadata of the draft."""
+  ummMetadata: JSON
+}
+
+type DraftList {
+  """The number of hits for a given search."""
+  count: Int
+  """Cursor that points to the a specific position in a list of requested records."""
+  cursor: String
+  """The list of draft search results."""
+  items: [Draft]
+}
+
+type DraftMutationResponse {
+  """The concept id of the draft."""
+  conceptId: String!
+  """The revision id of the draft."""
+  revisionId: String!
+  """Warnings returned from ingesting the draft."""
+  warnings: [JSON]
+  """Existing errors in the draft."""
+  existingErrors: [JSON]
+}
+
+type DuplicateCollection {
+  """The unique concept id assigned to the collection."""
+  id: String
+  """The DOI that identifies the collection."""
+  doi: String
+  """The short name associated with the collection."""
+  shortName: String
+  """The title of the collection described by the metadata."""
+  title: String
+}
+
+type DuplicateCollectionList {
+  """The number of duplicate collections available."""
+  count: Int
+  """The list of duplicate collections."""
+  items: [DuplicateCollection]
+}
+
+type Granule {
+  """Reference to an additional attribute in the parent collection. The attribute reference may contain a granule specific value that will override the value in the parent collection for this granule. An attribute with the same name must exist in the parent collection."""
+  additionalAttributes: JSON
+  """A list of boxes representing spatial coverage."""
+  boxes: [String]
+  """Boolean value displaying whether or not a granule has browse imagery."""
+  browseFlag: Boolean
+  """The parent collection."""
+  collection: Collection
+  """The concept id of the parent CMR collection."""
+  collectionConceptId: String
+  """A percentage value indicating how much of the area of a granule (the EOSDIS data unit) has been obscured by clouds. It is worth noting that there are many different measures of cloud cover within the EOSDIS data holdings and that the cloud cover parameter that is represented in the archive is dataset-specific."""
+  cloudCover: Float
+  """The unique concept id assigned to the granule."""
+  conceptId: String!
+  """Coordinate system info of the metadata."""
+  coordinateSystem: String
+  """Provider Id."""
+  dataCenter: String
+  """The basic descriptive characteristics associated with a granule."""
+  dataGranule: JSON
+  """Alias for entry_title."""
+  datasetId: String
+  """The day/night flag of the granule."""
+  dayNightFlag: String
+  """The file size of the granule contents in bytes."""
+  granuleSize: Float
+  """The Universal Reference ID of the granule referred by the data provider. This ID is unique per data provider."""
+  granuleUr: String
+  """A list of lines representing spatial coverage."""
+  lines: [String]
+  """A list of any URLs in the granule."""
+  links: JSON
+  """The name of the geophysical parameter expressed in the data as well as associated quality flags and quality statistics. The quality statistics element contains measures of quality for the granule. The parameters used to set these measures are not preset and will be determined by the data producer. Each set of measures can occur many times either for the granule as a whole or for individual parameters. The quality flags contain the science, operational and automatic quality flags which indicate the overall quality assurance levels of specific parameter values within a granule."""
+  measuredParameters: JSON
+  """The native id to set on the granule."""
+  nativeId: String!
+  """A flag to indicate whether associated data can be downloaded."""
+  onlineAccessFlag: Boolean
+  """This entity is used to store the characteristics of the orbit calculated spatial domain to include the model name, orbit number, start and stop orbit number, equator crossing date and time, and equator crossing longitude."""
+  orbitCalculatedSpatialDomains: JSON
+  """Native format of the granule."""
+  originalFormat: String
+  """A list of lat/lng points representing spatial coverage."""
+  points: [String]
+  """A list of polygons representing spatial coverage."""
+  polygons: JSON
+  """Granule ID provided by the producer."""
+  producerGranuleId: String
+  """Dates related to activities involving the the granule and the data provider database with the exception for Delete. For Create, Update, and Insert the date is the date that the granule file is created, updated, or inserted into the provider database by the provider. Delete is the date that the CMR should delete the granule metadata record from its repository."""
+  providerDates: JSON
+  """This element describes any data/service related URLs that include project home pages, services, related data archives/servers, metadata extensions, direct links to online software packages, web mapping services, links to images, or other data."""
+  relatedUrls: JSON
+  """Date which the Granule was last updated."""
+  revisionDate: String
+  """This class contains attributes which describe the spatial extent of a granule. Spatial Extent includes any or all of Granule Localities, Horizontal Spatial Domain, and Vertical Spatial Domain."""
+  spatialExtent: JSON
+  """This class contains attributes which describe the temporal extent of a granule. Temporal Extent includes either a Range Date Time, or a Single Date Time."""
+  temporalExtent: JSON
+  """End time of the metadata."""
+  timeEnd: String
+  """Start time of the metadata."""
+  timeStart: String
+  """Atom response: either 'ECHO dataset metadata' or 'ECHO granule metadata'."""
+  title: String
+  """The date/time the search was executed."""
+  updated: String
+}
+
+type GranuleList {
+  """The number of hits for a given search."""
+  count: Int
+  """Cursor that points to the/a specific position in a list of requested records."""
+  cursor: String
+  """The list of granule search results."""
+  items: [Granule]
+}
+
+type GraphDbCitation {
+  """The type of relationship."""
+  relationshipType: String
+  """The title of the citation"""
+  title: String
+  """The identifier of the citation"""
+  identifier: String
+  """The abstract of the citation"""
+  abstract: String
+  """The provider of the citation"""
+  providerId: String
+  """The identifier type of the citation"""
+  identifierType: String
+  """The concept id of the citation"""
+  id: String
+}
+
+type GraphDbPlatformInstrument {
+  """The type of relationship."""
+  relationshipType: String
+  """The name of the platform."""
+  platform: String
+  """The name of the instrument."""
+  instrument: String
+}
+
+type GraphDbProject {
+  """The type of relationship."""
+  relationshipType: String
+  """The name of the project"""
+  name: String
+}
+
+type GraphDbRelatedUrl {
+  """The type of relationship."""
+  relationshipType: String
+  """The url of the related url."""
+  url: String
+  """The description of the related url."""
+  description: String
+  """A keyword describing the type of the online resource to this resource."""
+  type: String
+  """A keyword describing the subtype of the online resource to this resource."""
+  subtype: String
+}
+
+type GraphDbScienceKeyword {
+  """The type of relationship."""
+  relationshipType: String
+  """The value of the science keyword"""
+  value: String
+  """The level of the science keyword"""
+  level: String
+  """Variable level 1 information"""
+  variableLevel1: String
+  """Variable level 2 information"""
+  variableLevel2: String
+  """Variable level 3 information"""
+  variableLevel3: String
+  """Detailed Variable information"""
+  detailedVariable: String
+}
+
+type Grid {
+  """The list of concepts and any data on the relationship between this DQS and other permitted concepts."""
+  associationDetails: JSON
+  """The additional attribute to the grid."""
+  additionalAttribute: JSON
+  """The unique concept id assigned to the grid."""
+  conceptId: String!
+  """The contact mechanisms for this grid"""
+  contactMechanisms: JSON
+  """The description for this grid"""
+  description: String
+  """The dimension size for this grid"""
+  dimensionSize: JSON
+  """The definition of the grid"""
+  gridDefinition: JSON
+  """The expanded or long name related to the grid name."""
+  longName: String
+  """The metadata date for this record"""
+  metadataDate: JSON
+  """The metadata specification for this grid"""
+  metadataSpecification: JSON
+  """The name for this grid"""
+  name: String
+  """The organization that this grid belongs to"""
+  organization: JSON
+  """The urls related to this grid"""
+  relatedUrls: JSON
+  """The resolution for this grid"""
+  resolution: JSON
+  """The grid's spatial extent"""
+  spatialExtent: JSON
+  """The records scale extent"""
+  scaleExtent: JSON
+  """The version for this grid record"""
+  version: String
+}
+
+type GridList {
+  """The number of hits for a given search."""
+  count: Int
+  """Cursor that points to the/a specific position in a list of requested records."""
+  cursor: String
+  """The list of grid search results."""
+  items: [Grid]
+}
+
+type Group {
+  """The unique id assigned to the group."""
+  id: String!
+  """The UID of the application that created the group."""
+  appUid: String
+  """The client ID of the application that created the group."""
+  clientId: String
+  """Name of the group."""
+  name: String!
+  """Description of the group."""
+  description: String
+  """Is the group shared."""
+  sharedUserGroup: Boolean
+  """Who created the group."""
+  createdBy: String
+  """Tag for the group."""
+  tag: String
+  """List of members of the group."""
+  members: GroupMemberList
+  """List of Acls this group belongs to."""
+  acls(params: GroupAclsInput): AclList
+}
+
+type GroupList {
+  """The number of hits for a given search."""
+  count: Int
+  """The list of group search results."""
+  items: [Group]
+}
+
+type GroupMember {
+  """The unique ID of the user in EDL."""
+  id: String
+  """The user's first name."""
+  firstName: String
+  """The user's last name."""
+  lastName: String
+  """The user's email address."""
+  emailAddress: String
+}
+
+type GroupMemberList {
+  """The number of hits for a given search."""
+  count: Int
+  """The list of group member search results."""
+  items: [GroupMember]
+}
+
+type Mutation {
+  """Create a new Acl."""
+  createAcl(catalogItemIdentity: JSON, systemIdentity: JSON, providerIdentity: JSON, groupPermissions: JSON): AclMutationResponse
+  """Update an existing Acl."""
+  updateAcl(catalogItemIdentity: JSON, systemIdentity: JSON, providerIdentity: JSON, conceptId: String!, groupPermissions: JSON): AclMutationResponse
+  """Delete an existing Acl."""
+  deleteAcl(conceptId: String!): AclMutationResponse
+  """Create a new Association."""
+  createAssociation(conceptId: String!, associatedConceptId: String, associatedConceptIds: [String], associatedConceptData: JSON): [AssociationMutationResponse]
+  """Delete an existing Association."""
+  deleteAssociation(conceptId: String!, associatedConceptId: String, associatedConceptIds: [String]): [AssociationMutationResponse]
+  """Restores a collection to a previous revision."""
+  restoreCollectionRevision(conceptId: String!, revisionId: String!): CollectionMutationResponse
+  """Deletes a collection."""
+  deleteCollection(providerId: String!, nativeId: String!): CollectionMutationResponse
+  restoreCitationRevision(conceptId: String!, revisionId: String!): CitationMutationResponse
+  deleteCitation(providerId: String!, nativeId: String!): CitationMutationResponse
+  """Ingest a draft."""
+  ingestDraft(conceptType: DraftConceptType!, metadata: JSON!, nativeId: String!, providerId: String!, ummVersion: String!): DraftMutationResponse
+  """Delete a draft."""
+  deleteDraft(conceptType: DraftConceptType!, nativeId: String!, providerId: String!): DraftMutationResponse
+  """Publish a draft."""
+  publishDraft(draftConceptId: String!, nativeId: String!, ummVersion: String!): PublishDraftMutationResponse
+  """Create a new group."""
+  createGroup(name: String!, description: String, tag: String, sharedUserGroup: String, members: String): Group!
+  """Delete a group."""
+  deleteGroup(id: String!): Boolean!
+  """Update a group."""
+  updateGroup(id: String!, name: String, description: String, tag: String, members: String): Group!
+  """Create a new order option."""
+  createOrderOption(description: String, form: String, nativeId: String, name: String, providerId: String!, scope: OrderOptionScopeType, sortKey: String): OrderOptionMutationResponse
+  """Update an existing order option."""
+  updateOrderOption(deprecated: Boolean, description: String, form: String, name: String, nativeId: String!, providerId: String!, scope: OrderOptionScopeType, sortKey: String): OrderOptionMutationResponse
+  """Delete an existing order option."""
+  deleteOrderOption(nativeId: String!, providerId: String!): OrderOptionMutationResponse
+  """Restore a service revision."""
+  restoreServiceRevision(conceptId: String!, revisionId: String!): ServiceMutationResponse
+  """Delete a service."""
+  deleteService(providerId: String!, nativeId: String!): ServiceMutationResponse
+  """Create a new subscription."""
+  createSubscription(params: CreateSubscriptionInput): SubscriptionMutationResponse
+  """Update an existing subscription."""
+  updateSubscription(params: UpdateSubscriptionInput): SubscriptionMutationResponse
+  """Delete an existing subscription."""
+  deleteSubscription(params: DeleteSubscriptionInput): SubscriptionMutationResponse
+  """Restore a tool revision."""
+  restoreToolRevision(conceptId: String!, revisionId: String!): ToolMutationResponse
+  """Delete a tool."""
+  deleteTool(providerId: String!, nativeId: String!): ToolMutationResponse
+  """Publish generated variables."""
+  publishGeneratedVariables(conceptId: String!): VariableList
+  """Restore a variable revision."""
+  restoreVariableRevision(conceptId: String!, revisionId: String!): VariableMutationResponse
+  """Delete a variable."""
+  deleteVariable(providerId: String!, nativeId: String!): VariableMutationResponse
+  restoreVisualizationRevision(conceptId: String!, revisionId: String!): VisualizationMutationResponse
+  deleteVisualization(providerId: String!, nativeId: String!): VisualizationMutationResponse
+}
+
+type OrderOption {
+  """The list of concepts and any data on the relationship between this order option and other permitted concepts"""
+  associationDetails: JSON
+  """The concept ID created by CMR for this order option"""
+  conceptId: String!
+  """Indicates if the definition is deprecated. Deprecated definitions will be returned to the client and will be considered valid when validating an order, however new order items cannot be added using the definition and existing order items cannot be updated using the definition. This flag is ignored when creating an option definition, however it will always be set and returned once the definition has been created."""
+  deprecated: Boolean
+  """The description is a longer, human-readable description of the order option type or contents, intended for client display."""
+  description: String
+  """Contents must conform to ECHO Forms schema. See the ECHO Forms Specification for more information."""
+  form: String
+  """The name is a shortened name used to distinguish between other option definitions."""
+  name: String
+  """The native ID to set on the order option."""
+  nativeId: String
+  """The provider ID to set on the order option."""
+  providerId: String
+  """The revision date for the order option."""
+  revisionDate: String
+  """The revision id for the order option."""
+  revisionId: String
+  """There are two levels of order options, provider and system. Only administrators may add system level options and only providers may add provider level options."""
+  scope: OrderOptionScopeType
+  """The sort key is used to indicate the preferred display order among other definitions."""
+  sortKey: String
+  """Return a list of associated collections for this order option."""
+  collections(params: CollectionsInput): CollectionList
+}
+
+type OrderOptionList {
+  """The number of hits for a given search."""
+  count: Int
+  """Cursor that points to the/a specific position in a list of requested records."""
+  cursor: String
+  """The list of orderOption search results."""
+  items: [OrderOption]
+}
+
+type OrderOptionMutationResponse {
+  """The concept ID of the draft."""
+  conceptId: String!
+  """The revision ID of the draft."""
+  revisionId: String!
+}
+
+type Permission {
+  """The unique id assigned to a CMR concept."""
+  conceptId: String
+  """A system object identity target."""
+  systemObject: String
+  """The capability being targeted."""
+  target: String
+  """List of permissions."""
+  permissions: [String]
+}
+
+type PermissionList {
+  """The number of hits for a given search."""
+  count: Int
+  """The list of permission search results."""
+  items: [Permission]
+}
+
+type Provider {
+  """The provider id"""
+  providerId: String
+  """The provider short name"""
+  shortName: String
+  """The provider CMR only flag"""
+  cmrOnly: Boolean
+  """The provider small flag"""
+  small: Boolean
+  """The consortiums associated with the provider"""
+  consortiums: String
+}
+
+type ProviderList {
+  """The number of providers."""
+  count: Int
+  """The list of provider results."""
+  items: [Provider]
+}
+
+type PublishDraftMutationResponse {
+  """The concept id of the draft."""
+  conceptId: String!
+  """The revision id of the draft."""
+  revisionId: String!
+  """Warnings returned from ingesting the draft."""
+  warnings: [JSON]
+  """Existing errors in the draft."""
+  existingErrors: [JSON]
+}
+
+type Query {
+  """Query for Acls."""
+  acls(params: AclsInput): AclList!
+  """Query for a single Acl."""
+  acl(conceptId: String): Acl
+  """Query for collections"""
+  collections(params: CollectionsInput): CollectionList!
+  """Query for a single collection"""
+  collection(params: CollectionInput): Collection
+  """Query for a collection draft."""
+  collectionDraft(params: CollectionDraftInput): CollectionDraft
+  """Query for a collection draft proposal."""
+  collectionDraftProposal(params: CollectionDraftProposalInput): CollectionDraftProposal
+  citations(params: CitationsInput): CitationList!
+  citation(params: CitationInput): Citation
+  """Query for Data Quality Summaries."""
+  dataQualitySummaries(params: DataQualitySummariesInput): DataQualitySummaryList!
+  """Query for a single Data Quality Summary."""
+  dataQualitySummary(params: DataQualitySummaryInput, conceptId: String): DataQualitySummary
+  """Query for a single Draft."""
+  draft(params: DraftInput): Draft
+  """Query for Drafts."""
+  drafts(params: DraftsInput): DraftList
+  """Query for a list of granules."""
+  granules(params: GranulesInput): GranuleList!
+  """Query for a single granule."""
+  granule(params: GranuleInput): Granule
+  """Query for Grids."""
+  grids(params: GridsInput): GridList!
+  """Query for a single Grid."""
+  grid(params: GridInput, conceptId: String): Grid
+  """Query for Groups."""
+  groups(params: GroupsInput): GroupList!
+  """Query for a single Group."""
+  group(params: GroupInput): Group
+  """Query for a single Order Option."""
+  orderOption(params: OrderOptionInput): OrderOption
+  """Query for Order Options."""
+  orderOptions(params: OrderOptionsInput): OrderOptionList!
+  """Query for a list of permissions."""
+  permissions(params: PermissionsInput): PermissionList!
+  """Query for a list of providers."""
+  providers: ProviderList!
+  """Query for a list of Services."""
+  services(params: ServicesInput): ServiceList!
+  """Query for a single Service."""
+  service(params: ServiceInput): Service
+  """Query for a service draft."""
+  serviceDraft(params: ServiceDraftInput): ServiceDraft
+  """Query for a list of Subscriptions."""
+  subscriptions(params: SubscriptionsInput): SubscriptionList!
+  """Query for a single Subscription."""
+  subscription(params: SubscriptionInput): SearchSubscription
+  """Query for a list of tag definitions."""
+  tagDefinitions(params: TagDefinitionsInput): TagDefinitionList!
+  """Query for a list of Tools."""
+  tools(params: ToolsInput): ToolList!
+  """Query for a single Tool."""
+  tool(params: ToolInput): Tool
+  """Query for a tool draft."""
+  toolDraft(params: ToolDraftInput): ToolDraft
+  """Query for a list of Variables."""
+  variables(params: VariablesInput): VariableList!
+  """Query for a single Variable."""
+  variable(params: VariableInput): Variable
+  """Query for a variable draft."""
+  variableDraft(params: VariableDraftInput): VariableDraft
+  """Get a list of visualizations."""
+  visualizations(params: VisualizationsInput): VisualizationList!
+  """Get a visualization."""
+  visualization(params: VisualizationInput): Visualization
+}
+
+type RelatedCollection {
+  """The unique concept id assigned to the collection."""
+  id: String
+  """The DOI that identifies the collection."""
+  doi: String
+  """The short name associated with the collection."""
+  shortName: String
+  """The title of the collection described by the metadata."""
+  title: String
+  """The list of relationships."""
+  relationships: [Relationship]
+}
+
+type RelatedCollectionsList {
+  """The number of related collections available."""
+  count: Int
+  """The list of related collections."""
+  items: [RelatedCollection]
+}
+
+type SearchSubscription {
+  """The concept id of the parent CMR collection."""
+  collectionConceptId: String
+  """The unique concept id assigned to the subscription."""
+  conceptId: String!
+  """The date the subscription was created."""
+  creationDate: String
+  """The email address that notifications will be delivered to."""
+  emailAddress: String
+  """The name of a subscription."""
+  name: String
+  """The native id of a subscription."""
+  nativeId: String
+  """The provider associated with this subscription."""
+  providerId: String
+  """The query used to retrieve data for the subscription."""
+  query: String
+  """The date the subscription was updated."""
+  revisionDate: String
+  """The revision associated with this subscription."""
+  revisionId: String
+  """The EDL userid of the subscriber."""
+  subscriberId: String
+  """The type of the subscription."""
+  type: String
+  """The collection associated with this subscription."""
+  collection: Collection
+}
+
+type Service {
+  """Information about any constraints for accessing the service, software, or tool."""
+  accessConstraints: String
+  """Words or phrases to further describe the service, software, or tool."""
+  ancillaryKeywords: [String]
+  """The list of concepts and any data on the relationship between this service and other permitted concepts"""
+  associationDetails: JSON
+  """The unique concept id assigned to the service."""
+  conceptId: String!
+  """This is the contact groups of the service."""
+  contactGroups: JSON
+  """This is the contact persons of the service."""
+  contactPersons: JSON
+  """A brief description of the service."""
+  description: String
+  """This element describes the latest date when the service was most recently pushed to production for support and maintenance."""
+  lastUpdatedDate: String
+  """The long name of the service, software, or tool."""
+  longName: String
+  """The maximum number of items permitted in a single order. Only for services that are type ECHO ORDERS."""
+  maxItemsPerOrder: Int
+  """The name of the service, software, or tool."""
+  name: String
+  """The native id to set on the service."""
+  nativeId: String!
+  """This class describes the signature of the operational metadata provided by the service."""
+  operationMetadata: JSON
+  """Provider ID of the service."""
+  providerId: String
+  """Date which the Service was last updated."""
+  revisionDate: String
+  """The revision id of the Service."""
+  revisionId: String
+  """Web addresses used to get supported documentation or other related information link to the service."""
+  relatedUrls: JSON
+  """Allows for the specification of Earth Science Service keywords that are representative of the service, software, or tool being described. The controlled vocabulary for Service Keywords is maintained in the Keyword Management System (KMS)."""
+  serviceKeywords: JSON
+  """This element contains important information about the Unique Resource Locator for the service."""
+  serviceOptions: JSON
+  """The service provider, or organization, or institution responsible for developing, archiving, and/or distributing the service, software, or tool."""
+  serviceOrganizations: JSON
+  """List of input projection names supported by the service."""
+  supportedInputProjections: JSON
+  """List of output projection names supported by the service."""
+  supportedOutputProjections: JSON
+  """List of format name combinations which explicitly state which re-formatting options are available."""
+  supportedReformattings: JSON
+  """Information about the quality of the service, software, or tool, or any quality assurance procedures followed in development."""
+  serviceQuality: JSON
+  """The type of the service."""
+  type: String
+  """Raw UMM Metadata of the Service Record."""
+  ummMetadata: JSON
+  """Represents the Internet site where you can directly access the back-end service."""
+  url: JSON
+  """Information on how the item (service, software, or tool) may or may not be used after access is granted. This includes any special restrictions, legal prerequisites, terms and conditions, and/or limitations on using the item. Providers may request acknowledgement of the item from users and claim no responsibility for quality and completeness."""
+  useConstraints: JSON
+  """Id of the user who modified/published record"""
+  userId: String
+  """The edition or version of the service."""
+  version: String
+  """This field provides users with information on what changes were included in the most recent version."""
+  versionDescription: String
+  """Previous revisions of this Collection"""
+  previousRevisions: [Collection]
+  """All revisions of this Service."""
+  revisions: ServiceRevisionList
+  """Returns a list of associated collections."""
+  collections(params: CollectionsInput): CollectionList
+  """Returns a list of associated order options."""
+  orderOptions(params: OrderOptionsInput): OrderOptionList
+  """Returns a list of associated variables."""
+  variables(params: VariablesInput): VariableList
+}
+
+type ServiceDraft {
+  """Information about any constraints for accessing the service, software, or tool."""
+  accessConstraints: String
+  """Words or phrases to further describe the service, software, or tool."""
+  ancillaryKeywords: [String]
+  """This is the contact groups of the service."""
+  contactGroups: JSON
+  """This is the contact persons of the service."""
+  contactPersons: JSON
+  """A brief description of the service."""
+  description: String
+  """This element describes the latest date when the service was most recently pushed to production for support and maintenance."""
+  lastUpdatedDate: String
+  """The long name of the service, software, or tool."""
+  longName: String
+  """The name of the service, software, or tool."""
+  name: String
+  """This class describes the signature of the operational metadata provided by the service."""
+  operationMetadata: JSON
+  """Web addresses used to get supported documentation or other related information link to the service."""
+  relatedUrls: JSON
+  """Allows for the specification of Earth Science Service keywords that are representative of the service, software, or tool being described. The controlled vocabulary for Service Keywords is maintained in the Keyword Management System (KMS)."""
+  serviceKeywords: JSON
+  """This element contains important information about the Unique Resource Locator for the service."""
+  serviceOptions: JSON
+  """The service provider, or organization, or institution responsible for developing, archiving, and/or distributing the service, software, or tool."""
+  serviceOrganizations: JSON
+  """Information about the quality of the service, software, or tool, or any quality assurance procedures followed in development."""
+  serviceQuality: JSON
+  """The type of the service, software, or tool."""
+  type: String
+  """This element contains important information about the universal resource locator (URL) for the service."""
+  url: JSON
+  """Information on how the item (service, software, or tool) may or may not be used after access is granted. This includes any special restrictions, legal prerequisites, terms and conditions, and/or limitations on using the item. Providers may request acknowledgement of the item from users and claim no responsibility for quality and completeness."""
+  useConstraints: JSON
+  """The edition or version of the service."""
+  version: String
+  """This field provides users with information on what changes were included in the most recent version."""
+  versionDescription: String
+}
+
+type ServiceList {
+  """The number of hits for a given search."""
+  count: Int
+  """Cursor that points to the a specific position in a list of requested records."""
+  cursor: String
+  """The list of service search results."""
+  items: [Service]
+}
+
+type ServiceMutationResponse {
+  """The unique concept id assigned to the service."""
+  conceptId: String!
+  """The revision of the service."""
+  revisionId: String!
+}
+
+type ServiceRevisionList {
+  """The number of hits for a given search."""
+  count: Int
+  """The list of service search results."""
+  items: [Service]
+}
+
+type SubscriptionList {
+  """The number of hits for a given search."""
+  count: Int
+  """Cursor that points to the/a specific position in a list of requested records."""
+  cursor: String
+  """The list of subscription search results."""
+  items: [SearchSubscription]
+}
+
+type SubscriptionMutationResponse {
+  """The unique concept id assigned to the subscription."""
+  conceptId: String
+  """The revision of the subscription."""
+  revisionId: String
+  """The native id of the subscription."""
+  nativeId: String
+}
+
+type TagDefinition {
+  """A concept id associated with the tag"""
+  conceptId: String
+  """A revision id associated with the tag"""
+  revisionId: String
+  """A free text specifying the key of the tag"""
+  tagKey: String
+  """A description of the tag"""
+  description: String
+  """The id of the user that created the tag"""
+  originatorId: String
+}
+
+type TagDefinitionList {
+  """The list of tag search results"""
+  items: [TagDefinition]
+}
+
+type Tool {
+  """Information about any constraints for accessing the downloadable tool or web user interface."""
+  accessConstraints: String
+  """Words or phrases to further describe the downloadable tool or web user interface."""
+  ancillaryKeywords: JSON
+  """The list of concepts and any data on the relationship between this tool and other permitted concepts"""
+  associationDetails: JSON
+  """The unique concept id assigned to the tool."""
+  conceptId: String!
+  """Group(s) to contact at an organization to get information about the web user interface or downloadable tool, including how the group may be contacted."""
+  contactGroups: JSON
+  """This is the contact persons of the downloadable tool or web user interface."""
+  contactPersons: JSON
+  """A brief description of the web user interface or downloadable tool. Note: This field allows lightweight markup language with plain text formatting syntax. Line breaks within the text are preserved."""
+  description: String
+  """The Digital Object Identifier (DOI) of the web user interface or downloadable tool."""
+  doi: String
+  """The native id of a tool."""
+  nativeId: String
+  """This element describes the latest date when the tool was most recently pushed to production for support and maintenance. """
+  lastUpdatedDate: String
+  """The long name of the downloadable tool or web user interface."""
+  longName: String
+  """Requires the client, or user, to add in schema information into every tool record. It includes the schema's name, version, and URL location. The information is controlled through enumerations at the end of this schema."""
+  metadataSpecification: JSON
+  """The name of the downloadable tool or web user interface."""
+  name: String
+  """The tool provider, or organization, or institution responsible for developing, archiving, and/or distributing the web user interface, software, or tool."""
+  organizations: JSON
+  """This element contains information about a smart handoff from one web user interface to another."""
+  potentialAction: JSON
+  """Provider ID of the Tool."""
+  providerId: String
+  """Information about the quality of the downloadable tool or web user interface. This would include information about any quality assurance procedures followed in development. Note: This field allows lightweight markup language with plain text formatting syntax. Line breaks within the text are preserved."""
+  quality: JSON
+  """A URL associated with the web user interface or downloadable tool, e.g., the home page for the tool provider which is responsible for the tool."""
+  relatedUrls: JSON
+  """Date which the Tool was last updated."""
+  revisionDate: String
+  """The revision id of the Tool."""
+  revisionId: String
+  """This element contains information about a smart handoff from one web user interface to another."""
+  searchAction: JSON
+  """The browser(s) and associated version supported by the web user interface."""
+  supportedBrowsers: JSON
+  """The project element describes the list of input format names supported by the web user interface or downloadable tool."""
+  supportedInputFormats: JSON
+  """The operating system(s) and associated version supported by the downloadable tool."""
+  supportedOperatingSystems: JSON
+  """The project element describes the list of output format names supported by the web user interface or downloadable tool."""
+  supportedOutputFormats: JSON
+  """The programming language(s) and associated version supported by the downloadable tool."""
+  supportedSoftwareLanguages: JSON
+  """Allows for the specification of Earth Science keywords that are representative of the service, software, or tool being described. The controlled vocabulary for Science Keywords is maintained in the Keyword Management System (KMS)."""
+  toolKeywords: JSON
+  """The type of the downloadable tool or web user interface."""
+  type: String
+  """Raw UMM Metadata of the Tool Record."""
+  ummMetadata: JSON
+  """The URL where you can directly access the web user interface or downloadable tool."""
+  url: JSON
+  """Information on how the item (downloadable tool or web user interface) may or may not be used after access is granted. This includes any special restrictions, legal prerequisites, terms and conditions, and/or limitations on using the item. Providers may request acknowledgement of the item from users and claim no responsibility for quality and completeness."""
+  useConstraints: JSON
+  """Id of the user who modified/published record"""
+  userId: String
+  """The edition or version of the web user interface software, or tool. A value of 'NOT PROVIDED' may be used if the version is not available or unknown."""
+  version: String
+  """This field provides users with information on what changes were included in the most recent version."""
+  versionDescription: String
+  """All revisions of this Tool."""
+  revisions: ToolRevisionList
+  """Returns a list of associated collections."""
+  collections(params: CollectionsInput): CollectionList
+}
+
+type ToolDraft {
+  """Information about any constraints for accessing the downloadable tool or web user interface."""
+  accessConstraints: String
+  """Words or phrases to further describe the downloadable tool or web user interface."""
+  ancillaryKeywords: JSON
+  """Group(s) to contact at an organization to get information about the web user interface or downloadable tool, including how the group may be contacted."""
+  contactGroups: JSON
+  """This is the contact persons of the downloadable tool or web user interface."""
+  contactPersons: JSON
+  """A brief description of the web user interface or downloadable tool. Note: This field allows lightweight markup language with plain text formatting syntax. Line breaks within the text are preserved."""
+  description: String
+  """The Digital Object Identifier (DOI) of the web user interface or downloadable tool."""
+  doi: String
+  """This element describes the latest date when the tool was most recently pushed to production for support and maintenance. """
+  lastUpdatedDate: String
+  """The long name of the downloadable tool or web user interface."""
+  longName: String
+  """Requires the client, or user, to add in schema information into every tool record. It includes the schema's name, version, and URL location. The information is controlled through enumerations at the end of this schema."""
+  metadataSpecification: JSON
+  """The name of the downloadable tool or web user interface."""
+  name: String
+  """The tool provider, or organization, or institution responsible for developing, archiving, and/or distributing the web user interface, software, or tool."""
+  organizations: JSON
+  """This element contains information about a smart handoff from one web user interface to another."""
+  potentialAction: JSON
+  """Information about the quality of the downloadable tool or web user interface. This would include information about any quality assurance procedures followed in development. Note: This field allows lightweight markup language with plain text formatting syntax. Line breaks within the text are preserved."""
+  quality: JSON
+  """A URL associated with the web user interface or downloadable tool, e.g., the home page for the tool provider which is responsible for the tool."""
+  relatedUrls: JSON
+  """This element contains information about a smart handoff from one web user interface to another."""
+  searchAction: JSON
+  """The browser(s) and associated version supported by the web user interface."""
+  supportedBrowsers: JSON
+  """The project element describes the list of input format names supported by the web user interface or downloadable tool."""
+  supportedInputFormats: JSON
+  """The operating system(s) and associated version supported by the downloadable tool."""
+  supportedOperatingSystems: JSON
+  """The project element describes the list of output format names supported by the web user interface or downloadable tool."""
+  supportedOutputFormats: JSON
+  """The programming language(s) and associated version supported by the downloadable tool."""
+  supportedSoftwareLanguages: JSON
+  """Allows for the specification of Earth Science keywords that are representative of the service, software, or tool being described. The controlled vocabulary for Science Keywords is maintained in the Keyword Management System (KMS)."""
+  toolKeywords: JSON
+  """The type of the downloadable tool or web user interface."""
+  type: String
+  """The URL where you can directly access the web user interface or downloadable tool."""
+  url: JSON
+  """Information on how the item (downloadable tool or web user interface) may or may not be used after access is granted. This includes any special restrictions, legal prerequisites, terms and conditions, and/or limitations on using the item. Providers may request acknowledgement of the item from users and claim no responsibility for quality and completeness."""
+  useConstraints: JSON
+  """The edition or version of the web user interface software, or tool. A value of 'NOT PROVIDED' may be used if the version is not available or unknown."""
+  version: String
+  """This field provides users with information on what changes were included in the most recent version."""
+  versionDescription: String
+}
+
+type ToolList {
+  """The number of hits for a given search."""
+  count: Int
+  """Cursor that points to the/a specific position in a list of requested records."""
+  cursor: String
+  """The list of service search results."""
+  items: [Tool]
+}
+
+type ToolMutationResponse {
+  """The unique concept id assigned to the tool."""
+  conceptId: String!
+  """The revision of the tool."""
+  revisionId: String!
+}
+
+type ToolRevisionList {
+  """The number of hits for a given search."""
+  count: Int
+  """The list of tool search results."""
+  items: [Tool]
+}
+
+type Variable {
+  """Any additional identifiers of a variable."""
+  additionalIdentifiers: JSON
+  """The list of concepts and any data on the relationship between this variable and other permitted concepts"""
+  associationDetails: JSON
+  """The unique concept id assigned to the variable."""
+  conceptId: String!
+  """Specify data type of a variable. These types can be either: uint8, uint16, etc."""
+  dataType: String
+  """The definition of the variable."""
+  definition: String
+  """A variable consists of one or more dimensions. An example of a dimension name is 'XDim'. An example of a dimension size is '1200'. Variables are rarely one dimensional."""
+  dimensions: JSON
+  """The fill value of the variable in the data file. It is generally a value which falls outside the valid range. For example, if the valid range is '0, 360', the fill value may be '-1'. The fill value type is data provider-defined. For example, 'Out of Valid Range'."""
+  fillValues: JSON
+  """This element describes the x and y dimension ranges for this variable. Typically these values are 2 latitude and longitude ranges, but they don't necessarily have to be."""
+  indexRanges: JSON
+  """Describes a store (zarr) where a variable has been separated from its original data files and saved as its own entity."""
+  instanceInformation: JSON
+  """The expanded or long name related to the variable Name."""
+  longName: String
+  """The measurement information of a variable."""
+  measurementIdentifiers: JSON
+  """The name of a variable."""
+  name: String
+  """The native id of a variable."""
+  nativeId: String
+  """The offset is the value which is either added to or subtracted from all values in the stored data field in order to obtain the original values. May be used together with Scale. An example of an offset is '0.49'."""
+  offset: Float
+  """Provider ID of the Variable."""
+  providerId: String
+  """A described URL associated with the a web resource, or interface. e.g., the home page for the variable provider."""
+  relatedUrls: JSON
+  """Date which the Variable was last updated."""
+  revisionDate: String
+  """The revision id of the Variable."""
+  revisionId: String
+  """The sampling information of a variable."""
+  samplingIdentifiers: JSON
+  """The scale is the numerical factor by which all values in the stored data field are multiplied in order to obtain the original values. May be used together with Offset. An example of a scale factor is '0.002'."""
+  scale: Float
+  """Controlled Science Keywords describing the collection. The controlled vocabulary for Science Keywords is maintained in the Keyword Management System (KMS)."""
+  scienceKeywords: JSON
+  """The set information of a variable. The variable is grouped within a set. The set is defined by the name, type, size and index. For example, Name: 'Data_Fields', Type: 'General', Size: '15', Index: '7' for the case of the variable named 'LST_Day_1km'."""
+  sets: JSON
+  """This is the more formal or scientific name, .e.g., the CF Standard Name."""
+  standardName: String
+  """Raw UMM Metadata of the Variable Record."""
+  ummMetadata: JSON
+  """The units associated with a variable."""
+  units: String
+  """Id of the user who modified/published record"""
+  userId: String
+  """Valid ranges of variable data values."""
+  validRanges: JSON
+  """Specifies the sub type of a variable."""
+  variableSubType: String
+  """Specify basic type of a variable."""
+  variableType: String
+  """All revisions of this Variable."""
+  revisions: VariableRevisionList
+  """Returns the list of collections associated with the variable."""
+  collections(params: CollectionsInput): CollectionList
+}
+
+type VariableDraft {
+  """Any additional identifiers of a variable."""
+  additionalIdentifiers: JSON
+  """Specify data type of a variable. These types can be either: uint8, uint16, etc."""
+  dataType: String
+  """The definition of the variable."""
+  definition: String
+  """A variable consists of one or more dimensions. An example of a dimension name is 'XDim'. An example of a dimension size is '1200'. Variables are rarely one dimensional."""
+  dimensions: JSON
+  """The fill value of the variable in the data file. It is generally a value which falls outside the valid range. For example, if the valid range is '0, 360', the fill value may be '-1'. The fill value type is data provider-defined. For example, 'Out of Valid Range'."""
+  fillValues: JSON
+  """This element describes the x and y dimension ranges for this variable. Typically these values are 2 latitude and longitude ranges, but they don't necessarily have to be."""
+  indexRanges: JSON
+  """Describes a store (zarr) where a variable has been separated from its original data files and saved as its own entity."""
+  instanceInformation: JSON
+  """The expanded or long name related to the variable Name."""
+  longName: String
+  """The measurement information of a variable."""
+  measurementIdentifiers: JSON
+  """The name of a variable."""
+  name: String
+  """The offset is the value which is either added to or subtracted from all values in the stored data field in order to obtain the original values. May be used together with Scale. An example of an offset is '0.49'."""
+  offset: Float
+  """A described URL associated with the a web resource, or interface. e.g., the home page for the variable provider."""
+  relatedUrls: JSON
+  """The sampling information of a variable."""
+  samplingIdentifiers: JSON
+  """The scale is the numerical factor by which all values in the stored data field are multiplied in order to obtain the original values. May be used together with Offset. An example of a scale factor is '0.002'."""
+  scale: Float
+  """Controlled Science Keywords describing the collection. The controlled vocabulary for Science Keywords is maintained in the Keyword Management System (KMS)."""
+  scienceKeywords: JSON
+  """The set information of a variable. The variable is grouped within a set. The set is defined by the name, type, size and index. For example, Name: 'Data_Fields', Type: 'General', Size: '15', Index: '7' for the case of the variable named 'LST_Day_1km'."""
+  sets: JSON
+  """This is the more formal or scientific name, .e.g., the CF Standard Name."""
+  standardName: String
+  """The units associated with a variable."""
+  units: String
+  """Valid ranges of variable data values."""
+  validRanges: JSON
+  """Specifies the sub type of a variable."""
+  variableSubType: String
+  """Specify basic type of a variable."""
+  variableType: String
+  """Metadata Specification"""
+  metadataSpecification: JSON
+}
+
+type VariableDraftList {
+  """The number of variable drafts."""
+  count: Int
+  """The list of variable drafts."""
+  items: [VariableDraft]
+}
+
+type VariableList {
+  """The number of hits for a given search."""
+  count: Int
+  """Cursor that points to the a specific position in a list of requested records."""
+  cursor: String
+  """The list of variable search results."""
+  items: [Variable]
+}
+
+type VariableMutationResponse {
+  """The unique concept id assigned to the variable."""
+  conceptId: String!
+  """The revision of the variable."""
+  revisionId: String!
+}
+
+type VariableRevisionList {
+  """The number of hits for a given search."""
+  count: Int
+  """The list of variable search results."""
+  items: [Variable]
+}
+
+type Visualization {
+  """The unique concept id assigned to the visualization."""
+  conceptId: String!
+  """A human readable description of the visualization written using HTML notation for advanced text.  The goal is to create descriptions for the science-minded public that may have an interest in finding out what the visualization shows, why it’s important, how it was created, etc..."""
+  description: String
+  """How this visualization is generated."""
+  generation: JSON
+  """The unique identifier for the visualization."""
+  identifier: String
+  """Requires the client, or user, to add in schema information into every visualization record. It includes the schema's name, version, and URL location. The information is controlled through enumerations at the end of this schema."""
+  metadataSpecification: JSON
+  """A name of the visualization."""
+  name: String
+  """The native id of a visualization."""
+  nativeId: String
+  """Provider ID of the Visualization."""
+  providerId: String
+  """Date which the Visualization was last updated."""
+  revisionDate: String
+  """The revision id of the Visualization."""
+  revisionId: String
+  """The list of revisions for the visualization."""
+  revisions: VisualizationRevisionList
+  """Earth Science keywords that are representative of the data being visualized. The controlled vocabulary for Science Keywords is maintained in the Keyword Management System (KMS)."""
+  scienceKeywords: JSON
+  """The spatial extent of the visualization."""
+  spatialExtent: JSON
+  """Identify and specify visualization product."""
+  specification: JSON
+  """A short descriptive subtitle of the visualization."""
+  subtitle: String
+  """This class contains attributes which describe the temporal range of a specific layer. Temporal Extent includes a specification of the Temporal Range Type of the collection, which is one of Range Date Time, Single Date Time, or Periodic Date Time"""
+  temporalExtents: JSON
+  """A short descriptive title of the visualization."""
+  title: String
+  """Raw UMM Metadata of the Visualization Record."""
+  ummMetadata: JSON
+  """Id of the user who modified/published record"""
+  userId: String
+  """The type of visualization, `tiles` or `maps`."""
+  visualizationType: String
+  """Returns a list of associated collections."""
+  collections(params: CollectionsInput): CollectionList
+}
+
+type VisualizationList {
+  """The number of hits for a given search."""
+  count: Int
+  """Cursor that points to a specific position in a list of requested records."""
+  cursor: String
+  """The list of visualization search results."""
+  items: [Visualization]
+}
+
+type VisualizationMutationResponse {
+  """The unique concept id assigned to the visualization."""
+  conceptId: String!
+  """The revision of the visualization."""
+  revisionId: String!
+}
+
+type VisualizationRevisionList {
+  """The number of hits for a given search."""
+  count: Int
+  """The list of visualization search results."""
+  items: [Visualization]
+}
+
+input AclsInput {
+  """The unique concept id assigned to the acl."""
+  conceptId: String
+  """Cursor that points to the/a specific position in a list of requested records."""
+  cursor: String
+  """The group concept id or permission to return acls for."""
+  groupPermission: JSON
+  """Type of the object being controlled."""
+  identityType: IdentityType
+  """The number of Acls to return."""
+  limit: Int
+  """Zero based offset of individual results."""
+  offset: Int
+  """User is an URS user name corresponding to a member of a group that has access to an Acl."""
+  permittedUser: String
+  """Group that is permitted via this Acl."""
+  permittedGroup: String
+  """List of groups that are permitted via this Acl."""
+  permittedGroups: [String]
+  """Provider that owns the Acl"""
+  provider: String
+  """The unique concept id of the object this acl is permitted access to."""
+  permittedConceptId: String
+  """Matches Acls which have the given object identity target."""
+  target: String
+}
+
+input CitationInput {
+  """The unique concept id assigned to the citation"""
+  conceptId: String
+}
+
+input CitationsInput {
+  """Author Names"""
+  authorName: String
+  """Author ORCID"""
+  authorOrcid: String
+  """The unique concept id assigned to the citation"""
+  conceptId: [String]
+  """Journal or Conference Name"""
+  container: String
+  """Cursor that points to the/a specific position in a list of requested records."""
+  cursor: String
+  """The type of identifier used"""
+  identifierType: String
+  """The identifier for the cited resource, e.g., DOI, ISBN, ARK"""
+  identifier: String
+  """Science Keywords in keywords"""
+  keyword: String
+  """The number of tools requested by the user."""
+  limit: Int
+  """The value of the Name field in Citation Draft metadata"""
+  name: String
+  """The native id assigned to the citation"""
+  nativeId: String
+  """Zero based offset of individual results."""
+  offset: Int
+  """The name of the provider associated with the citation."""
+  provider: String
+  """Related Identifiers (dataset DOIs)"""
+  relatedIdentifier: String
+  """The nature of the relationship between the cited resource and the collection"""
+  relationshipType: String
+  """One or more sort keys can be specified to impact searching. Fields can be prepended with a '-' to sort in descending order. Ascending order is the default but + can be used to explicitly request ascending."""
+  sortKey: [String]
+  """Citation Title"""
+  title: String
+  """Resource Type"""
+  type: String
+  """Publication Year"""
+  Year: Int
+}
+
+input CollectionDraftInput {
+  """The id of the collection draft"""
+  id: Int!
+}
+
+input CollectionDraftProposalInput {
+  """The collection draft proposal id."""
+  id: Int!
+}
+
+input CollectionInput {
+  """The unique concept id assigned to the collection."""
+  conceptId: String!
+  """If this parameter is set to 'true' this will include a flag indicating true or false if the collection has any granules at all."""
+  includeHasGranules: Boolean
+  """If this parameter is set (e.g. include_tags=gov.nasa.earthdata.search.*,gov.nasa.echo.*), the collection results will contain an additional field 'tags' within each collection. The value of the tags field is a list of tag_keys that are associated with the collection. Only the tags with tag_key matching the values of include_tags parameter (with wildcard support) are included in the results."""
+  includeTags: String
+  """The revision id of the collection."""
+  revisionId: String
+}
+
+input CollectionsInput {
+  """The unique concept id assigned to the collection."""
+  conceptId: [String]
+  """The consortium value of the collection."""
+  consortium: [String]
+  """The DOI Value of the collection."""
+  doi: String
+  """Cursor that points to the/a specific position in a list of requested records."""
+  cursor: String
+  """Bounding boxes define an area on the earth aligned with longitude and latitude. The Bounding box parameters must be 4 comma-separated numbers: lower left longitude, lower left latitude, upper right longitude, upper right latitude."""
+  boundingBox: [String]
+  """Circle defines a circle area on the earth with a center point and a radius. The center parameters must be 3 comma-separated numbers: longitude of the center point, latitude of the center point, radius of the circle in meters. The circle center cannot be on North or South pole. The radius of the circle must be between 10 and 6,000,000."""
+  circle: [String]
+  """The cloud_hosted parameter can be set to 'true' or 'false'. When true, the results will be restricted to collections that have a DirectDistributionInformation element or have been tagged with gov.nasa.earthdatacloud.s3."""
+  cloudHosted: Boolean
+  """Type of the collection."""
+  collectionDataType: [String]
+  """The production status of the data set (collection)."""
+  collectionProgress: String
+  """The production statuses of the data sets (collections)."""
+  collectionProgresses: [String]
+  """The Entry Title of collection"""
+  entryTitle: String
+  """Data center assigned to the collection."""
+  dataCenter: String
+  """Data centers assigned to the collection."""
+  dataCenters: [String]
+  """Data center assigned to the collection, in facet form."""
+  dataCenterH: [String]
+  """Entry ID of the collection."""
+  entryId: [String]
+  """The number of facets to return in each category."""
+  facetsSize: Int
+  """The data format of the granules belonging to the collection."""
+  granuleDataFormat: String
+  """The data format of the granules belonging to the collection, in facet form."""
+  granuleDataFormatH: [String]
+  """When true, the results will be restricted to collections with granules or with the configured CWIC tag. When false, results will be restricted to collections without granules."""
+  hasGranulesOrCwic: Boolean
+  """When has_granules is set to 'true' or 'false', results will be restricted to collections with or without granules, respectively."""
+  hasGranules: Boolean
+  """When has_opendap_url is set to 'true' or 'false', results will be restricted to collections with or without OPeNDAP service RelatedURLs, respectively."""
+  hasOpendapUrl: Boolean
+  """The horizontal data resolution of the data belonging to the collection."""
+  horizontalDataResolutionRange: [String]
+  """If this parameter is set (e.g. includeFacets=v2), the results will include a new top level key `facets` that contains the facets related to the collection results.
+**NOTE**: This only requests the facets be returned by CMR, you will need to include `facets` in your query to have the results returned in the query."""
+  includeFacets: String
+  """If this parameter is set to 'true' this will include a flag indicating true or false if the collection has any granules at all."""
+  includeHasGranules: Boolean
+  """Controls whether non-operational collections are included in the search results.
+If set to true, non-operational collections will be included.
+If set to false, non-operational collections will be explicitly excluded, even when searching by identifier."""
+  includeNonOperational: Boolean
+  """If this parameter is set (e.g. includeTags=gov.nasa.earthdata.search.*,gov.nasa.echo.*), the collection results will contain an additional field 'tags' within each collection. The value of the tags field is a list of tag_keys that are associated with the collection. Only the tags with tag_key matching the values of include_tags parameter (with wildcard support) are included.
+**NOTE**: This only requests the tags be returned by CMR, you will need to include `tags` in your query to have the results returned in the query."""
+  includeTags: String
+  """Instrument associated with the collection."""
+  instrument: String
+  """Instrument associated with the collection, in facet form."""
+  instrumentH: [String]
+  """Keyword search value."""
+  keyword: String
+  """The latency facet value of the collection."""
+  latency: [String]
+  """The number of collections requested by the user."""
+  limit: Int
+  """Search for collections that intersect with provided lines."""
+  line: [String]
+  """Zero based offset of individual results."""
+  offset: Int
+  """Options to provide to CMR pertaining to and, or, and wildcard searching."""
+  options: JSON
+  """Which page to request from the current collection results."""
+  pageSize: Int
+  """Platform associated with the collection."""
+  platform: String
+  """Platform associated with the collection, in facet form."""
+  platformsH: JSON
+  """Search using a point involves using a pair of values representing the point coordinates as parameters. The first value is the longitude and second value is the latitude."""
+  point: [String]
+  """Polygon points are provided in counter-clockwise order. The last point should match the first point to close the polygon. The values are listed comma separated in longitude latitude order, i.e. lon1, lat1, lon2, lat2, lon3, lat3, and so on."""
+  polygon: [String]
+  """An identifier indicating the level at which the data in the collection are processed, ranging from Level0 (raw instrument data at full resolution) to Level4 (model output or analysis results).  The value of Processing Level Id is chosen from a controlled vocabulary."""
+  processingLevelId: String
+  """An identifier indicating the level at which the data in the collection are processed, ranging from Level0 (raw instrument data at full resolution) to Level4 (model output or analysis results), in facet form.  The value of Processing Level Id is chosen from a controlled vocabulary."""
+  processingLevelIdH: [String]
+  """The project associated with the collection."""
+  project: String
+  """The project associated with the collection, in facet form."""
+  projectH: [String]
+  """The name of the provider associated with the collection."""
+  provider: String
+  """The name of the providers associated with the collections."""
+  providers: [String]
+  """The revision date of the collection"""
+  revisionDate: String
+  """Science Keywords associated with the collection, in facet form."""
+  scienceKeywordsH: JSON
+  """Science Keywords for searching term at all levels of the science keyword hierarchy."""
+  scienceKeywords: JSON
+  """UMM Service concept id."""
+  serviceConceptId: String
+  """UMM Service type."""
+  serviceType: [String]
+  """UMM Tool concept id."""
+  toolConceptId: String
+  """The short name associated with the collection."""
+  shortName: String
+  """An array of 'shortName' param values."""
+  shortNames: [String]
+  """One or more sort keys can be specified to impact searching. Fields can be prepended with a '-' to sort in descending order. Ascending order is the default but + can be used to explicitly request ascending."""
+  sortKey: [String]
+  """Keywords relating to spatial aspects of the collection."""
+  spatialKeyword: String
+  """Boolean to query for collections in the Standard Product portal"""
+  standardProduct: Boolean
+  """Tags associated with the collection."""
+  tagKey: [String]
+  """The temporal datetime has to be in yyyy-MM-ddTHH:mm:ssZ format."""
+  temporal: String
+  """Find collections which have a revision date starting at or after the provided datetime string in yyyy-MM-ddTHH:mm:ssZ format."""
+  updatedSince: String
+  """The 2D coordinate system associated with the collection."""
+  twoDCoordinateSystemName: [String]
+  """version of the collection."""
+  version: String
+  """UMM Variable concept id."""
+  variableConceptId: String
+}
+
+input CreateSubscriptionInput {
+  """The concept id of the parent CMR collection."""
+  collectionConceptId: String
+  """The email address that notifications will be delivered to."""
+  name: String!
+  """The native id to set on the subscription. If no value is provided, a new native id will be generated."""
+  nativeId: String
+  """The EDL userid of the subscriber."""
+  subscriberId: String
+  """The query used to retrieve data for the subscription."""
+  query: String!
+  """The type of the subscription."""
+  type: String!
+}
+
+input DataQualitySummariesInput {
+  """The unique concept-id assigned to the DQS."""
+  conceptId: [String]
+  """Cursor that points to the/a specific position in a list of requested records."""
+  cursor: String
+  """The number of data-quality-summaries requested by the user."""
+  limit: Int
+  """Zero based offset of individual results."""
+  offset: Int
+}
+
+input DataQualitySummaryInput {
+  """The unique concept id assigned to the DQS."""
+  conceptId: String!
+}
+
+input DeleteSubscriptionInput {
+  """The concept id of the subscription."""
+  conceptId: String!
+  """The native id of the subscription."""
+  nativeId: String!
+}
+
+input DraftInput {
+  """The concept type of the draft."""
+  conceptType: DraftConceptType!
+  """The concept id of the draft."""
+  conceptId: String!
+  """UMM Version of the draft."""
+  ummVersion: String
+}
+
+input DraftsInput {
+  """The concept type of the draft."""
+  conceptType: DraftConceptType!
+  """The concept id of the draft."""
+  conceptId: [String]
+  """Cursor that points to the/a specific position in a list of requested records."""
+  cursor: String
+  """The number of draft requested by the user."""
+  limit: Int
+  """The name of the draft."""
+  name: [String]
+  """The native id of the draft."""
+  nativeId: [String]
+  """Zero based offset of individual results."""
+  offset: Int
+  """Options to provide to CMR pertaining to and, or, and wildcard searching."""
+  options: JSON
+  """The name of the provider associated with the draft."""
+  provider: [String]
+  """One or more sort keys can be specified to impact searching. Fields can be prepended with a '-' to sort in descending order. Ascending order is the default but + can be used to explicitly request ascending."""
+  sortKey: [String]
+  """UMM Version of the draft."""
+  ummVersion: String
+}
+
+input GranuleInput {
+  """The unique concept id assigned to the granule."""
+  conceptId: String!
+}
+
+input GranulesInput {
+  """Find granules by additional attribute. For full syntax reference see CMR documentation. https://cmr.earthdata.nasa.gov/search/site/docs/search/api.html#g-additional-attribute"""
+  attribute: [String]
+  """Bounding boxes define an area on the earth aligned with longitude and latitude. The Bounding box parameters must be 4 comma-separated numbers: lower left longitude, lower left latitude, upper right longitude, upper right latitude."""
+  boundingBox: [String]
+  """Search by the browse only flag of the granule."""
+  browseOnly: Boolean
+  """Circle defines a circle area on the earth with a center point and a radius. The center parameters must be 3 comma-separated numbers: longitude of the center point, latitude of the center point, radius of the circle in meters. The circle center cannot be on North or South pole. The radius of the circle must be between 10 and 6,000,000."""
+  circle: [String]
+  """Search granules by cloud cover min and max."""
+  cloudCover: JSON
+  """The unique concept id assigned to the parent collection."""
+  collectionConceptId: String
+  """A list of unique concept ids assigned to the parent collection."""
+  collectionConceptIds: [String]
+  """The unique concept id assigned to the granule."""
+  conceptId: [String]
+  """Find granules which were created within the ranges of datetimes. The datetime has to be in yyyy-MM-ddTHH:mm:ssZ format. The default is inclusive on the range boundaries."""
+  createdAt: [String]
+  """Cursor that points to the/a specific position in a list of requested records."""
+  cursor: String
+  """Search by cycle which is part of the track information of a granule."""
+  cycle: Int
+  """Search by the day/night flag of the granule."""
+  dayNightFlag: String
+  """Search by entry id of the parent collection."""
+  entryId: [String]
+  """Search by the equator crossing date of the granule."""
+  equatorCrossingDate: JSON
+  """Search by the equator crossing longitude of the granule."""
+  equatorCrossingLongitude: JSON
+  """Exclude granules from results by echo_granule_id and/or concept_id."""
+  exclude: JSON
+  """The number of granules requested by the user."""
+  limit: Int
+  """Search for granules that intersect with provided lines."""
+  line: [String]
+  """Filter the links based on these types."""
+  linkTypes: [String]
+  """Zero based offset of individual results."""
+  offset: Int
+  """Search by the online only flag of the granule."""
+  onlineOnly: Boolean
+  """Options to provide to CMR pertaining to and, or, and wildcard searching."""
+  options: JSON
+  """Search for granules by orbit number min and max"""
+  orbitNumber: JSON
+  """Search by passes which is part of the track information of a granule."""
+  passes: JSON
+  """Find granules which have production date within the ranges of datetimes. The datetime has to be in yyyy-MM-ddTHH:mm:ssZ format. The default is inclusive on the range boundaries."""
+  productionDate: [String]
+  """Search using a point involves using a pair of values representing the point coordinates as parameters. The first value is the longitude and second value is the latitude."""
+  point: [String]
+  """Polygon points are provided in counter-clockwise order. The last point should match the first point to close the polygon. The values are listed comma separated in longitude latitude order, i.e. lon1, lat1, lon2, lat2, lon3, lat3, and so on."""
+  polygon: [String]
+  """Search for granules using the provider parameter."""
+  provider: [String]
+  """Search for granules using the readable_granule_name parameter."""
+  readableGranuleName: [String]
+  """Find granules matching any of the 'short_name' param values. The 'short_name' here refers to the short name of the collections corresponding to the granules being searched for."""
+  shortName: [String]
+  """Find granules which have revision date within the ranges of datetimes. The datetime has to be in yyyy-MM-ddTHH:mm:ssZ format. The default is inclusive on the range boundaries."""
+  revisionDate: [String]
+  """One or more sort keys can be specified to impact searching. Fields can be prepended with a '-' to sort in descending order. Ascending order is the default but + can be used to explicitly request ascending."""
+  sortKey: [String]
+  """The temporal datetime has to be in yyyy-MM-ddTHH:mm:ssZ format."""
+  temporal: String
+  """The 2D coordinate system associated with the collection"""
+  twoDCoordinateSystem: JSON
+  """Find granules which have revision date starting at or after 'updated_since' param value."""
+  updatedSince: String
+}
+
+input GridInput {
+  """The unique concept id assigned to the grid."""
+  conceptId: String!
+}
+
+input GridsInput {
+  """The unique concept id assigned to the grid."""
+  conceptId: [String]
+  """Cursor that points to the/a specific position in a list of requested records."""
+  cursor: String
+  """The number of grids requested by the user."""
+  limit: Int
+  """Zero based offset of individual results."""
+  offset: Int
+}
+
+input GroupAclsInput {
+  """Type of the object being controlled."""
+  identityType: IdentityType
+  """The number of Acls to return."""
+  limit: Int
+  """Zero based offset of individual results."""
+  offset: Int
+}
+
+input GroupInput {
+  """The unique id assigned to the group."""
+  id: String!
+}
+
+input GroupsInput {
+  """Parameter used to search for groups by name. Group names are comprised of letters and numbers with no spaces. Any group matching the passed in string will be returned."""
+  name: String
+  """Parameter used to search for groups by user ids. Multiple user ids can be passed as a comma separated string or as an array. A group containing all users passed in will be returned."""
+  userIds: [String]
+  """Parameter used to search for groups by tags. A group that matches any of the tags passed in will be returned. This field supports wildcard searches by setting `wildcardTags` to `true`."""
+  tags: [Unknown!]!
+  """Setting to `true` will have the `tags` parameter act as a wildcard search, returning groups where the tag contains the provided tag. Setting to `false` will have the `tags` parameter be an exact search. Defaults to `false`."""
+  wildcardTags: Boolean
+  """Parameter used to exclude groups that exactly match the provided tags."""
+  excludeTags: [String]
+  """The number of groups requested by the user."""
+  limit: Int
+  """Zero based offset of individual results."""
+  offset: Int
+}
+
+input OrderOptionInput {
+  """The unique concept ID assigned to the order-option."""
+  conceptId: String
+}
+
+input OrderOptionsInput {
+  """The unique concept ID assigned to the order-option."""
+  conceptId: [String]
+  """Cursor that points to the/a specific position in a list of requested records."""
+  cursor: String
+  """The number of variables requested by the user."""
+  limit: Int
+  """Zero based offset of individual results."""
+  offset: Int
+  """The provider ID."""
+  providerId: [String]
+}
+
+input PermissionsInput {
+  """The unique id assigned to a CMR concept."""
+  conceptId: String
+  """The list of unique ids assigned to CMR concepts."""
+  conceptIds: [String]
+  """A system object identity target."""
+  systemObject: String
+  """ID of a valid provider."""
+  provider: String
+  """The capability to target."""
+  target: String
+  """Either guest or registered."""
+  userType: PermissionUserType
+  """The user whose permissions will be computed."""
+  userId: String
+}
+
+input RelatedCollectionsInput {
+  """The size of the range GraphDB searches on. Defaults to 5"""
+  limit: Int
+  """The beginning of the range GraphDB searches on"""
+  offset: Int
+  """Filter the RelatedURL relationships by the Type property."""
+  relatedUrlType: [String]
+  """Filter the RelatedURL relationships by the subtype property."""
+  relatedUrlSubtype: [String]
+}
+
+input ServiceDraftInput {
+  """The id of the service draft"""
+  id: Int!
+}
+
+input ServiceInput {
+  """The unique concept id assigned to the service."""
+  conceptId: String!
+}
+
+input ServicesInput {
+  """The unique concept id assigned to the service."""
+  conceptId: [String]
+  """Cursor that points to the/a specific position in a list of requested records."""
+  cursor: String
+  """Keyword search value."""
+  keyword: String
+  """The number of services requested by the user."""
+  limit: Int
+  """Zero based offset of individual results."""
+  offset: Int
+  """The name of the provider associated with the service."""
+  provider: String
+  """The type of the service."""
+  type: String
+  """One or more sort keys can be specified to impact searching. Fields can be prepended with a '-' to sort in descending order. Ascending order is the default but + can be used to explicitly request ascending."""
+  sortKey: [String]
+}
+
+input SubscriptionInput {
+  """The unique concept id assigned to the subscription."""
+  conceptId: String!
+}
+
+input SubscriptionsInput {
+  """The concept id of the parent CMR collection."""
+  collectionConceptId: String
+  """The unique concept id assigned to the subscription."""
+  conceptId: [String]
+  """Cursor that points to the/a specific position in a list of requested records."""
+  cursor: String
+  """The number of subscriptions requested by the user."""
+  limit: Int
+  """The name of a subscription."""
+  name: String
+  """The provider associated with this subscription."""
+  provider: String
+  """The userid of the subscriber."""
+  subscriberId: String
+  """Zero based offset of individual results."""
+  offset: Int
+  """The type of the subscription."""
+  type: String
+}
+
+input TagDefinitionsInput {
+  """The unique tag keys"""
+  tagKey: [String]
+  """The id of the user that created the tag"""
+  originatorId: String
+}
+
+input ToolDraftInput {
+  """The id of the tool draft"""
+  id: Int!
+}
+
+input ToolInput {
+  """The unique concept id assigned to the tool."""
+  conceptId: String!
+}
+
+input ToolsInput {
+  """The unique concept id assigned to the tool."""
+  conceptId: [String]
+  """Cursor that points to the/a specific position in a list of requested records."""
+  cursor: String
+  """Keyword search value."""
+  keyword: String
+  """The number of tools requested by the user."""
+  limit: Int
+  """Zero based offset of individual results."""
+  offset: Int
+  """The name of the provider associated with the tool."""
+  provider: String
+  """One or more sort keys can be specified to impact searching. Fields can be prepended with a '-' to sort in descending order. Ascending order is the default but + can be used to explicitly request ascending."""
+  sortKey: [String]
+}
+
+input UpdateSubscriptionInput {
+  """The concept id of the parent CMR collection."""
+  collectionConceptId: String
+  """The email address that notifications will be delivered to."""
+  name: String!
+  """The native id to set on the subscription."""
+  nativeId: String!
+  """The EDL userid of the subscriber."""
+  subscriberId: String
+  """The query used to retrieve data for the subscription."""
+  query: String!
+  """The type of the subscription."""
+  type: String!
+}
+
+input VariableDraftInput {
+  """The id of the variable draft"""
+  id: Int!
+}
+
+input VariableInput {
+  """The unique concept id assigned to the variable."""
+  conceptId: String!
+}
+
+input VariablesInput {
+  """The unique concept id assigned to the variable."""
+  conceptId: [String]
+  """Cursor that points to the/a specific position in a list of requested records."""
+  cursor: String
+  """Keyword search value."""
+  keyword: String
+  """The number of variables requested by the user."""
+  limit: Int
+  """The name of a variable."""
+  name: String
+  """Zero based offset of individual results."""
+  offset: Int
+  """The name of the provider associated with the variable."""
+  provider: String
+  """One or more sort keys can be specified to impact searching. Fields can be prepended with a '-' to sort in descending order. Ascending order is the default but + can be used to explicitly request ascending."""
+  sortKey: [String]
+}
+
+input VisualizationInput {
+  """The concept id of the visualization."""
+  conceptId: String!
+}
+
+input VisualizationsInput {
+  """The unique concept id assigned to the visualization."""
+  conceptId: [String]
+  """Cursor that points to a specific position in a list of requested records."""
+  cursor: String
+  """Keyword search value."""
+  keyword: String
+  """The number of visualizations requested by the user."""
+  limit: Int
+  """The native id of the visualization."""
+  nativeId: String
+  """The name of the visualization."""
+  name: String
+  """Zero based offset of individual results."""
+  offset: Int
+  """The name of the provider associated with the visualization."""
+  provider: String
+  """One or more sort keys can be specified to impact searching. Fields can be prepended with a '-' to sort in descending order. Ascending order is the default but + can be used to explicitly request ascending."""
+  sortKey: [String]
+  """The title of the visualization."""
+  title: String
+  """The type of visualization."""
+  visualizationType: String
+}
