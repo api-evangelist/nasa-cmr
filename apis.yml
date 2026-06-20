@@ -7,7 +7,7 @@ description: 'NASA Common Metadata Repository (CMR) is a high-performance metada
   and Earth observation datasets spanning decades of NASA missions.
 
   '
-image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
 url: https://raw.githubusercontent.com/api-evangelist/nasa-cmr/refs/heads/main/apis.yml
 created: '2026-06-13'
 modified: '2026-06-13'
@@ -32,7 +32,7 @@ apis:
     multiple formats including JSON, XML, CSV, ECHO10, DIF, ISO-19115, KML, and UMM-JSON.
 
     '
-  image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   humanURL: https://cmr.earthdata.nasa.gov/search/site/docs/search/api.html
   baseURL: https://cmr.earthdata.nasa.gov/search
   tags:
@@ -61,7 +61,7 @@ apis:
     Validates metadata against UMM schemas with revision tracking for all changes.
 
     '
-  image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   humanURL: https://cmr.earthdata.nasa.gov/ingest/site/docs/ingest/api.html
   baseURL: https://cmr.earthdata.nasa.gov/ingest
   tags:
@@ -85,7 +85,7 @@ apis:
     providers and their collections.
 
     '
-  image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   humanURL: https://cmr.earthdata.nasa.gov/access-control/site/docs/access-control/api.html
   baseURL: https://cmr.earthdata.nasa.gov/access-control
   tags:
@@ -108,7 +108,7 @@ apis:
     optional EDL Bearer Token authentication for accessing restricted resources.
 
     '
-  image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   humanURL: https://graphql.earthdata.nasa.gov/docs/introduction/introduction/
   baseURL: https://graphql.earthdata.nasa.gov/api
   tags:
@@ -134,7 +134,7 @@ apis:
     assets available in AWS S3.
 
     '
-  image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   humanURL: https://github.com/nasa/cmr-stac
   baseURL: https://cmr.earthdata.nasa.gov/stac
   tags:
@@ -160,7 +160,7 @@ apis:
     OpenSearch Description Document (OSDD) responses.
 
     '
-  image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   humanURL: https://cmr.earthdata.nasa.gov/opensearch/home/docs
   baseURL: https://cmr.earthdata.nasa.gov/opensearch
   tags:
