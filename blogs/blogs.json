@@ -2,13 +2,13 @@
   "repo": "nasa-cmr",
   "feeds": [
     {
-      "source": "https://status.earthdata.nasa.gov/",
-      "feed_url": "https://status.earthdata.nasa.gov/",
-      "title": "",
-      "saved": 0,
-      "method": "none"
+      "source": "https://www.earthdata.nasa.gov/news",
+      "feed_url": "",
+      "saved": 2,
+      "method": "agent-scrape"
     }
   ],
-  "post_count": 0,
-  "fetched": "2026-06-14T20:42:17Z"
+  "post_count": 3,
+  "fetched": "2026-06-27T12:55:43Z",
+  "agent_pulled": "2026-06-27"
 }

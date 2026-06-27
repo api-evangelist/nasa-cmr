@@ -183,7 +183,7 @@ common:
   url: https://github.com/nasa
 - type: GitHubRepository
   url: https://github.com/nasa/Common-Metadata-Repository
-- type: Forum
+- type: Forums
   url: https://forum.earthdata.nasa.gov/
 - type: Login
   url: https://urs.earthdata.nasa.gov/
