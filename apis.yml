@@ -175,6 +175,8 @@ apis:
     url: https://www.earthdata.nasa.gov/engage/open-data-services-software/earthdata-developer-portal/cmr-api
     email: support@earthdata.nasa.gov
 common:
+- type: AgenticAccess
+  url: agentic-access/nasa-cmr-agentic-access.yml
 - type: DomainSecurity
   url: security/nasa-cmr-domain-security.yml
 - type: Website
