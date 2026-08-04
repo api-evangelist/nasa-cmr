@@ -1,0 +1,20 @@
+{
+  "provider": "nasa-cmr",
+  "sources": [
+    "nasa-cmr-capabilities-api-openapi.yml",
+    "nasa-cmr-collections-api-openapi.yml",
+    "nasa-cmr-data-api-openapi.yml",
+    "nasa-cmr-stac-api-openapi.yml"
+  ],
+  "outputs": [
+    "nasa-cmr-capabilities-api-openapi.yml",
+    "nasa-cmr-collections-api-openapi.yml",
+    "nasa-cmr-data-api-openapi.yml",
+    "nasa-cmr-stac-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
