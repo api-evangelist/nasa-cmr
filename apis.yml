@@ -203,6 +203,10 @@ apis:
   - type: Documentation
     url: https://cmr.earthdata.nasa.gov/search/site/docs/search/api.html
 common:
+- type: IssueTracker
+  url: https://github.com/nasa/cmr-stac/issues
+- type: Releases
+  url: https://github.com/nasa/cmr-stac/releases
 - type: AgenticAccess
   url: agentic-access/nasa-cmr-agentic-access.yml
 - type: DomainSecurity
