@@ -1,0 +1,317 @@
+{
+  "item": [
+    {
+      "id": "892f0541-ff46-4c50-98b0-b561d78d872d",
+      "name": "Data",
+      "description": {
+        "content": "access to data (features)",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "dba068ca-f132-4093-a09c-64eeb0c174a3",
+          "name": "fetch features",
+          "request": {
+            "name": "fetch features",
+            "description": {
+              "content": "Fetch features of the feature collection with id `collectionId`.\n\nEvery feature in a dataset belongs to a collection. A dataset may\nconsist of multiple feature collections. A feature collection is often a\ncollection of features of a similar type, based on a common schema.\n\nUse content negotiation to request HTML or GeoJSON.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                ":providerId",
+                "collections",
+                ":collectionId",
+                "items"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "378f68e2-1f09-4db8-bef1-a80afad880d6",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":providerId",
+                    "collections",
+                    ":collectionId",
+                    "items"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "efa25444-2055-4b6a-8b84-69e50872ff96",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":providerId",
+                    "collections",
+                    ":collectionId",
+                    "items"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "6cea3031-bdc7-4427-9061-15c35c1be14d",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":providerId",
+                    "collections",
+                    ":collectionId",
+                    "items"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "8542353d-2396-44b9-8510-a367551f90c6",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":providerId",
+                    "collections",
+                    ":collectionId",
+                    "items"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "8ecd1d94-12b7-4448-afbf-9c57528cb853",
+          "name": "fetch a single feature",
+          "request": {
+            "name": "fetch a single feature",
+            "description": {
+              "content": "Fetch the feature with id `featureId` in the feature collection\nwith id `collectionId`.\n\nUse content negotiation to request HTML or GeoJSON.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                ":providerId",
+                "collections",
+                ":collectionId",
+                "items",
+                ":featureId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "d37b0841-d738-45e9-929e-b3cccb9093b7",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":providerId",
+                    "collections",
+                    ":collectionId",
+                    "items",
+                    ":featureId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "148d656b-36f6-43ee-95b4-d30972c08473",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":providerId",
+                    "collections",
+                    ":collectionId",
+                    "items",
+                    ":featureId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "37c0b4dd-8c0a-4a4a-b0c9-ea30403c60e9",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":providerId",
+                    "collections",
+                    ":collectionId",
+                    "items",
+                    ":featureId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://cmr.earthdata.nasa.gov/search",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "e2b69a99-5b9c-412a-a3d3-046cb77bbc3b",
+    "name": "CMR Search Capabilities Data API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "CMR Search API",
+      "type": "text/plain"
+    }
+  }
+}

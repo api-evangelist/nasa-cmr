@@ -1,0 +1,337 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "CMR Search Capabilities Collections API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Collections",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Search for collections",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/collections:response_format",
+            "params": [
+              {
+                "name": "response_format",
+                "value": "",
+                "type": "path",
+                "description": "Select an extension to specify the format for search results. The default is xml. An accept header MIME type can also be used to specify the response format. The default is 'application/xml'."
+              },
+              {
+                "name": "keyword",
+                "value": "",
+                "type": "query",
+                "description": "<p>Matches collections against a free text keyword search. Keyword searches are case insensitive and support wild cards ? and *.</p>"
+              },
+              {
+                "name": "concept_id[]",
+                "value": "",
+                "type": "query",
+                "description": "<p>A CMR concept id is in the format <code>&lt;concept-type-prefix&gt; &lt;unique-number&gt; &quot;-&quot;&lt;provider-id&gt;</code></p>\n<ul>\n<li><code>concept-type-prefix</code> is a single capital letter prefix indicating the concept type. \"C\" is used for collections</li>\n<li><code>unique-number</code> is a single number assigned by the CMR during ingest.</li>\n<li><code>provider-id</code> is the short name for the provider. i.e. \"LPDAAC_ECS\"</li>\n</ul>\n<p>Example: <code>C123456-LPDAAC_ECS</code></p>"
+              },
+              {
+                "name": "entry_id[]",
+                "value": "",
+                "type": "query",
+                "description": "Matches collections by entry ID."
+              },
+              {
+                "name": "entry_title[]",
+                "value": "",
+                "type": "query",
+                "description": "Matches collections by entry title."
+              },
+              {
+                "name": "short_name[]",
+                "value": "",
+                "type": "query",
+                "description": "Matches collections by short name."
+              },
+              {
+                "name": "version[]",
+                "value": "",
+                "type": "query",
+                "description": "Matches collections by version ID."
+              },
+              {
+                "name": "provider[]",
+                "value": "",
+                "type": "query",
+                "description": "Matches collections by provider ID."
+              },
+              {
+                "name": "provider_short_name[]",
+                "value": "",
+                "type": "query",
+                "description": "Matches collections by provider short name. Does not support the pattern option."
+              },
+              {
+                "name": "science_keywords[0][category]",
+                "value": "",
+                "type": "query",
+                "description": "Matches collections by science keyword subfield category. To specify multiple different science keywords use a different index for each science keyword (e.g. science_keywords[1][category])."
+              },
+              {
+                "name": "science_keywords[0][topic]",
+                "value": "",
+                "type": "query",
+                "description": "Matches collections by science keyword subfield topic. To specify multiple different science keywords use a different index for each science keyword (e.g. science_keywords[1][topic])."
+              },
+              {
+                "name": "science_keywords[0][term]",
+                "value": "",
+                "type": "query",
+                "description": "Matches collections by science keyword subfield term. To specify multiple different science keywords use a different index for each science keyword (e.g. science_keywords[1][term])."
+              },
+              {
+                "name": "science_keywords[0][variable_level_1]",
+                "value": "",
+                "type": "query",
+                "description": "Matches collections by science keyword subfield variable level 1. To specify multiple different science keywords use a different index for each science keyword (e.g. science_keywords[1][variable_level_1])."
+              },
+              {
+                "name": "science_keywords[0][variable_level_2]",
+                "value": "",
+                "type": "query",
+                "description": "Matches collections by science keyword subfield variable level 2. To specify multiple different science keywords use a different index for each science keyword (e.g. science_keywords[1][variable_level_2])."
+              },
+              {
+                "name": "science_keywords[0][variable_level_3]",
+                "value": "",
+                "type": "query",
+                "description": "Matches collections by science keyword subfield variable level 3. To specify multiple different science keywords use a different index for each science keyword (e.g. science_keywords[1][variable_level_3])."
+              },
+              {
+                "name": "science_keywords[0][detailed_variable]",
+                "value": "",
+                "type": "query",
+                "description": "Matches collections by science keyword subfield detailed variable. To specify multiple different science keywords use a different index for each science keyword (e.g. science_keywords[1][detailed_variable])."
+              },
+              {
+                "name": "spatial_keyword[]",
+                "value": "",
+                "type": "query",
+                "description": "Matches collections by spatial keyword."
+              },
+              {
+                "name": "platform[]",
+                "value": "",
+                "type": "query",
+                "description": "Matches collections by platform short name."
+              },
+              {
+                "name": "instrument[]",
+                "value": "",
+                "type": "query",
+                "description": "Matches collections by instrument short name."
+              },
+              {
+                "name": "sensor[]",
+                "value": "",
+                "type": "query",
+                "description": "Matches collections by sensor short name."
+              },
+              {
+                "name": "data_center[]",
+                "value": "",
+                "type": "query",
+                "description": "Matches collections by data center. Data centers include archive, processing, originating, and distribution centers."
+              },
+              {
+                "name": "archive_center[]",
+                "value": "",
+                "type": "query",
+                "description": "Matches collections by archive center."
+              },
+              {
+                "name": "project[]",
+                "value": "",
+                "type": "query",
+                "description": "Match collections by project short name."
+              },
+              {
+                "name": "processing_level_id[]",
+                "value": "",
+                "type": "query",
+                "description": "Match collections by processing level ID."
+              },
+              {
+                "name": "attribute[]",
+                "value": "",
+                "type": "query",
+                "description": "<p>Matches collections by additional attribute. An additional attribute name is accepted or a comma separated list of <code>type,name,min_value,max_value</code>.</p>\n<p>Example: <code>int,HORIZONTALTILENUMBER,1,12</code></p>\n<p>Type is the type of the additional attribute. It will find collections with additional attributes of that type and name with a value between min_value and max_value.</p>\n<p>The default is for collections to match all the attribute parameters. This can be changed by specifying <code>or</code> option with <code>options[attribute][or]=true</code>.</p><p>For additional attribute range search, the default is inclusive on the range boundaries. This can be changed by specifying <code>exclude_boundary</code> option with <code>options[attribute][exclude_boundary]=true</code>.</p>"
+              },
+              {
+                "name": "temporal[]",
+                "value": "",
+                "type": "query",
+                "description": "<p>The temporal datetime has to be in yyyy-MM-ddTHH:mm:ssZ format.</p>\n<p>The first two values of the parameter together define the temporal bounds.</p>\n<p>For temporal range search, the default is inclusive on the range boundaries.\nThis can be changed by specifying <code>exclude_boundary</code> option with <code>options[temporal][exclude_boundary]=true</code>.This option has no impact on periodic temporal searches.</p>\n<p>The collection's temporal range or the temporal range of the granules in the collection can be searched.\n                           <code>options[temporal][limit_to_granules]=true</code> will indicate that the temporal search should find collections based on the minimum and maximum values of each collection's granules' temporal range.\nIf a collection does not have any granules it will search the collection's temporal range.</p>"
+              },
+              {
+                "name": "updated_since",
+                "value": "",
+                "type": "query",
+                "description": "Find collections which have revision date starting at or after 'updated_since' param value"
+              },
+              {
+                "name": "revision_date",
+                "value": "",
+                "type": "query",
+                "description": "<p>Find collections based on either a single revision datetime, or a comma separated revision datetime range. If a single revision date is provided any collections with a revision date greater than or equal to the provided datetime are matched. If two dates are provided, it matches collections which have a revision date within the ranges of datetimes. The datetimes have to be in yyyy-MM-ddTHH:mm:ssZ format. The default is inclusive on the range boundaries.</p>"
+              },
+              {
+                "name": "bounding_box",
+                "value": "",
+                "type": "query",
+                "description": "Matches collections with a spatial area intersecting the provided bounding box. Bounding boxes define an area on the earth aligned with longitude and latitude. The Bounding box parameters must be 4 comma-separated numbers: lower left longitude, lower left latitude, upper right longitude, upper right latitude."
+              },
+              {
+                "name": "polygon",
+                "value": "",
+                "type": "query",
+                "description": "Matches collections with a spatial area intersecting the provided polygon. Polygon points are provided in counter-clockwise order.\nThe last point should match the first point to close the polygon.\nThe values are listed comma separated in longitude latitude order, i.e. lon1, lat1, lon2, lat2, lon3, lat3, and so on."
+              },
+              {
+                "name": "point",
+                "value": "",
+                "type": "query",
+                "description": "Matches collections with a spatial area intersecting the given point. Search using a point involves using a pair of values representing the point coordinates as parameters. The first value is the longitude and second value is the latitude."
+              },
+              {
+                "name": "line",
+                "value": "",
+                "type": "query",
+                "description": "Matches collections with a spatial area intersecting the given line. Lines are provided as a list of comma separated values representing coordinates of points along the line.\nThe coordinates are listed in the format lon1, lat1, lon2, lat2, lon3, lat3, and so on."
+              },
+              {
+                "name": "two_d_coordinate_system_name[]",
+                "value": "",
+                "type": "query",
+                "description": "Matches collections by a two dimensional coordinate system name (also referred to as a tiling identification system name)."
+              },
+              {
+                "name": "browsable",
+                "value": "",
+                "type": "query",
+                "description": "Matches collections by whether or not the collection metadata includes at least one browse URL."
+              },
+              {
+                "name": "downloadable",
+                "value": "",
+                "type": "query",
+                "description": "Matches collections by whether or not the collection metadata includes at least one download URL."
+              },
+              {
+                "name": "has_granules",
+                "value": "",
+                "type": "query",
+                "description": "When <code>has_granules</code> is set to \"true\" or \"false\", results will be restricted to collections with or without granules, respectively."
+              },
+              {
+                "name": "has_granules_or_cwic",
+                "value": "",
+                "type": "query",
+                "description": "When <code>has_granules_or_cwic</code> is set to \"true\" or \"false\", results will be restricted to collections with or without granules, respectively. Or they are CWIC tagged collections."
+              },
+              {
+                "name": "collection_data_type[]",
+                "value": "",
+                "type": "query",
+                "description": "Matches collections by the collection data type. The following are aliases for \"NEAR_REAL_TIME\": \"near_real_time\", \"nrt\", \"NRT\", \"near real time\", \"near-real time\", \"near-real-time\", \"near real-time\"."
+              },
+              {
+                "name": "tag_key[]",
+                "value": "",
+                "type": "query",
+                "description": "<p>Collections can be found by searching for associated tags. The following tag parameters are supported.</p>\n<ul>\n<li>tag_key</li>\n<li>options: pattern</li>\n<li>tag_originator_id</li>\n<li>options: pattern</li>\n<li>tag_data</li>\n<li>options: pattern</li>\n</ul>\n<p><code>exclude</code> parameter can be used with tag_key to exclude any collections that are associated with the specified tag key from the search result.</p>"
+              },
+              {
+                "name": "include_tags",
+                "value": "",
+                "type": "query",
+                "description": "When true include tag information in the response for each of the matching collections."
+              },
+              {
+                "name": "all_revisions",
+                "value": "",
+                "type": "query",
+                "description": "In addition to retrieving the latest revision for a collection parameter search, it is possible to return all revisions, including tombstone (deletion marker) revisons, by passing in <code>all_revisions=true</code> with the URL parameters. The reference and UMM JSON response formats are supported for all revision searches. References to tombstone revisions do not include the <code>location</code> tag and include an additional tag, <code>deleted</code>, which always has content of \"true\"."
+              },
+              {
+                "name": "include_granule_counts",
+                "value": "",
+                "type": "query",
+                "description": "When true include the number of matching granules for each matching collection."
+              },
+              {
+                "name": "include_facets",
+                "value": "",
+                "type": "query",
+                "description": "When true include facet information in the legacy facet response format. When set to v2 include facet information in the updated version 2 facets format."
+              },
+              {
+                "name": "hierarchical_facets",
+                "value": "",
+                "type": "query",
+                "description": "When include_facets is true and hierarchical_facets is true, return the legacy facet response with hierarchical fields for science keywords, platforms, instruments, data centers, and locations."
+              },
+              {
+                "name": "include_highlights",
+                "value": "",
+                "type": "query",
+                "description": "When true highlight any of the terms provided in the keyword search that match within the collection summary. Only supported for the JSON response format."
+              },
+              {
+                "name": "sort_key[]",
+                "value": "",
+                "type": "query",
+                "description": "<p>Collection results are sorted by ascending entry title by default when a search does not result in a score. If a keyword search is performed then the search results will be sorted by relevance (score descending). One or more sort keys can be specified using the <code>sort_key[]</code> parameter. The order used impacts searching. Fields can be prepended with a <code>-</code> to sort in descending order. Ascending order is the default but <code>+</code> can be used to explicitly request ascending.</p>\n<h5>Valid Collection Sort Keys</h5>\n<ul>\n<li><code>entry_title</code></li>\n <li><code>dataset_id</code> - alias for entry_title</li>\n<li><code>short_name</code></li>\n<li><code>entry_id</code></li>\n<li><code>start_date</code></li>\n<li><code>end_date</code></li>\n         <li><code>platform</code></li>\n<li><code>instrument</code></li>\n<li><code>sensor</code></li>\n<li><code>provider</code></li>\n<li><code>revision_date</code></li>\n<li><code>score</code> - document relevance score, defaults to descending.</li>\n<li><code>has_granules</code> - Sorts collections by whether they have granules or not. Collections with granules are sorted before collections without granules.</li>"
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Number of results per page - default is 10, max is 2000."
+              },
+              {
+                "name": "page_num",
+                "value": "",
+                "type": "query",
+                "description": "The page number to return."
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "As an alternative to page_num, a 0-based offset of individual results may be specified."
+              },
+              {
+                "name": "pretty",
+                "value": "",
+                "type": "query",
+                "description": "Return formatted results if set to true."
+              },
+              {
+                "name": "token",
+                "value": "",
+                "type": "query",
+                "description": "Specifies a user/guest token from ECHO to use to authenticate yourself. This can also be specified as the header Echo-Token."
+              }
+            ]
+          },
+          "docs": "<p>The collection search route supports both GET and POST with URL encoded form data. All parameters are searched in a case insensitive manner.</p><h4> Paging Details </h4>\n<p>The CMR contains many more results than can be returned in a single response so the number of results that can be returned is limited. The parameters `page_num`, `offset`, and `page_size` along with the sort specified by `sort_key` control which items will be returned. The query parameter `page_size`, defaulting to 10, con"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,101 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "CMR Search Capabilities API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Capabilities",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "landing page",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/"
+          },
+          "docs": "The root landing page displays all available provider catalogs in CMR-STAC."
+        },
+        {
+          "info": {
+            "name": "information about specifications that this API conforms to",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/docs"
+          },
+          "docs": "A list of all conformance classes specified in a standard that the \nserver conforms to."
+        },
+        {
+          "info": {
+            "name": "A provider catalog that contains a STAC search endpoint as well as a collections \nendpoint for crawling through collections and items in the browser",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/:providerId"
+          },
+          "docs": "A provider catalog that contains a STAC search endpoint as well as a collections \nendpoint for crawling through collections and items in the browser"
+        },
+        {
+          "info": {
+            "name": "Display all feature collections under provider `providerId`",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/:providerId/collections",
+            "params": [
+              {
+                "name": "providerId",
+                "value": "",
+                "type": "path",
+                "description": "local identifier of a provider"
+              },
+              {
+                "name": "collections",
+                "value": "",
+                "type": "query",
+                "description": "The collections search parameter is a list of of collection IDs for Items to match.\nOnly items that are included in one of these collections will be returned, otherwise\nall collections will be searched.\n"
+              }
+            ]
+          },
+          "docs": "Display all feature collections under provider `providerId`"
+        },
+        {
+          "info": {
+            "name": "describe the feature collection with id `collectionId`",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/:providerId/collections/:collectionId",
+            "params": [
+              {
+                "name": "providerId",
+                "value": "",
+                "type": "path",
+                "description": "local identifier of a provider"
+              },
+              {
+                "name": "collectionId",
+                "value": "",
+                "type": "path",
+                "description": "local identifier of a collection"
+              }
+            ]
+          },
+          "docs": "describe the feature collection with id `collectionId`"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

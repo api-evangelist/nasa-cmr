@@ -1,0 +1,516 @@
+{
+  "item": [
+    {
+      "id": "fe634370-278a-4b20-bb84-5b9ff4921f74",
+      "name": "Capabilities",
+      "description": {
+        "content": "essential characteristics of this API",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "ad75c151-2723-4174-b914-e92f40f04486",
+          "name": "landing page",
+          "request": {
+            "name": "landing page",
+            "description": {
+              "content": "The root landing page displays all available provider catalogs in CMR-STAC.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "e4d5171f-6e82-46a7-bdf3-eacd7c8dcc03",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "1828dc6c-f210-4bdb-b8eb-94b13a66a195",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "cc5d1860-cd0b-49e3-ac58-13a3e86c9a84",
+          "name": "information about specifications that this API conforms to",
+          "request": {
+            "name": "information about specifications that this API conforms to",
+            "description": {
+              "content": "A list of all conformance classes specified in a standard that the \nserver conforms to.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "docs"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "5f5c1012-26dc-44fe-9959-a65046ef86db",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "docs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "22ef6c12-185e-4761-87b2-cd3451112454",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "docs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "8231282e-b839-4167-b557-707c22761ae0",
+          "name": "A provider catalog that contains a STAC search endpoint as well as a collections \nendpoint for crawling through collections and items in the browser",
+          "request": {
+            "name": "A provider catalog that contains a STAC search endpoint as well as a collections \nendpoint for crawling through collections and items in the browser",
+            "description": {},
+            "url": {
+              "path": [
+                ":providerId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "9e649032-53fa-4621-9706-ea10df6469a6",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":providerId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "1ea1a839-db8c-40ea-8df3-aeff5d9206ca",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":providerId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "5c80bf94-49b8-4745-9931-27927e8f0edd",
+          "name": "Display all feature collections under provider `providerId`",
+          "request": {
+            "name": "Display all feature collections under provider `providerId`",
+            "description": {},
+            "url": {
+              "path": [
+                ":providerId",
+                "collections"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "f71dd982-7bc3-4041-b908-f14ad36862fd",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":providerId",
+                    "collections"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "000b2bdf-de8b-453d-81d9-2a7541634fa7",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":providerId",
+                    "collections"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "8454cbd3-d887-45b1-8d6c-e742a1b5e416",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":providerId",
+                    "collections"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "87889c5e-c54d-4606-b2fa-336b6081ab5f",
+          "name": "describe the feature collection with id `collectionId`",
+          "request": {
+            "name": "describe the feature collection with id `collectionId`",
+            "description": {},
+            "url": {
+              "path": [
+                ":providerId",
+                "collections",
+                ":collectionId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "06a3f5ef-cac3-45b9-8f03-7d6d4fbfb724",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":providerId",
+                    "collections",
+                    ":collectionId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "e0b34843-0aa3-4eb3-b4f7-7a8082e94578",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":providerId",
+                    "collections",
+                    ":collectionId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "f72328db-60ec-4d7f-850e-690f0fe76643",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":providerId",
+                    "collections",
+                    ":collectionId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://cmr.earthdata.nasa.gov/search",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "37644383-69cf-4840-93a6-6ab586f8b566",
+    "name": "CMR Search Capabilities API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "CMR Search API",
+      "type": "text/plain"
+    }
+  }
+}

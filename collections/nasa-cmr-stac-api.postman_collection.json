@@ -1,0 +1,277 @@
+{
+  "item": [
+    {
+      "id": "00a084f3-35c3-4bc3-b7c1-95295495be2e",
+      "name": "STAC",
+      "description": {
+        "content": "Extension to WFS3 Core to support STAC metadata model and search API",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "301bf5f3-dfca-4e6b-b8a4-6adcbf8b81e0",
+          "name": "Search STAC items with simple filtering.",
+          "request": {
+            "name": "Search STAC items with simple filtering.",
+            "description": {
+              "content": "Retrieve Items matching filters. Intended as a shorthand API for simple queries.\n\nThis method is optional, but you MUST implement `POST /stac/search` if you want to implement this method.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                ":providerId",
+                "search"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/geo+json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "558dac09-2daa-4361-b7b8-6903e4f6d5e5",
+              "name": "A feature collection.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":providerId",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/geo+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/geo+json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "04f20b8f-aad1-483e-bb15-00d07106a7f2",
+              "name": "An error occurred.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":providerId",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "98680699-3357-4f69-bc85-7a13e47c4751",
+          "name": "Search STAC items with full-featured filtering.",
+          "request": {
+            "name": "Search STAC items with full-featured filtering.",
+            "description": {
+              "content": "retrieve items matching filters. Intended as the standard, full-featured query API.\n\nThis method is mandatory to implement if `GET /stac/search` is implemented. If this endpoint is implemented on a server, it is required to add a link with `rel` set to `search` to the `links` array in `GET /stac` that refers to this endpoint.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                ":providerId",
+                "search"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/geo+json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "82ee5fbc-16b3-44a2-a36b-88a7c9898999",
+              "name": "A feature collection.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":providerId",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/geo+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/geo+json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "380ac0ce-0649-49a6-b7a2-f7a2e5ec7115",
+              "name": "An error occurred.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":providerId",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://cmr.earthdata.nasa.gov/search",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "bd7fbf34-ab58-4a98-9518-7d48c74515eb",
+    "name": "CMR Search Capabilities STAC API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "CMR Search API",
+      "type": "text/plain"
+    }
+  }
+}
