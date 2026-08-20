@@ -33,6 +33,16 @@ tags:
 - Geospatial
 - Open Data
 - Metadata
+- Collection
+- Granules
+tags_raw:
+- NASA
+- Earth Science
+- Satellite Data
+- Remote Sensing
+- Geospatial
+- Open Data
+- Metadata
 - Collections
 - Granules
 apis:
@@ -47,6 +57,12 @@ apis:
   humanURL: https://cmr.earthdata.nasa.gov/ingest/site/docs/ingest/api.html
   baseURL: https://cmr.earthdata.nasa.gov/ingest
   tags:
+  - Ingest
+  - Metadata
+  - Collection
+  - Granules
+  - Providers
+  tags_raw:
   - Ingest
   - Metadata
   - Collections
@@ -95,6 +111,12 @@ apis:
   tags:
   - GraphQL
   - Search
+  - Collection
+  - Granules
+  - Unified
+  tags_raw:
+  - GraphQL
+  - Search
   - Collections
   - Granules
   - Unified
@@ -120,6 +142,12 @@ apis:
   tags:
   - STAC
   - Cloud
+  - Collection
+  - Item
+  - Geospatial
+  tags_raw:
+  - STAC
+  - Cloud
   - Collections
   - Items
   - Geospatial
@@ -143,6 +171,10 @@ apis:
   humanURL: https://cmr.earthdata.nasa.gov/opensearch/home/docs
   baseURL: https://cmr.earthdata.nasa.gov/opensearch
   tags:
+  - OpenSearch
+  - Discovery
+  - Collection
+  tags_raw:
   - OpenSearch
   - Discovery
   - Collections
@@ -172,6 +204,8 @@ apis:
   humanURL: https://cmr.earthdata.nasa.gov/search/site/docs/search/api.html
   baseURL: https://cmr.earthdata.nasa.gov/search
   tags:
+  - Collection
+  tags_raw:
   - Collections
   properties:
   - type: OpenAPI
