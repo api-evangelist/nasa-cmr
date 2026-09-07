@@ -1,14 +1,10 @@
-swagger: '2.0'
+openapi: 3.2.0
 info:
   title: CMR Search Capabilities API
   version: 1.0.0
   description: CMR Search API
-host: cmr.earthdata.nasa.gov
-basePath: /search
-schemes:
-- https
-consumes: []
-produces: []
+servers:
+- url: https://cmr.earthdata.nasa.gov/search
 tags:
 - name: Capabilities
   description: essential characteristics of this API
@@ -81,6 +77,38 @@ paths:
         '500':
           $ref: '#/components/responses/ServerError'
 components:
+  parameters:
+    collections:
+      name: collections
+      in: query
+      description: 'The collections search parameter is a list of of collection IDs for Items to match.
+
+        Only items that are included in one of these collections will be returned, otherwise
+
+        all collections will be searched.
+
+        '
+      required: false
+      schema:
+        type: array
+        minItems: 1
+        items:
+          type: string
+      explode: false
+    collectionId:
+      name: collectionId
+      in: path
+      description: local identifier of a collection
+      required: true
+      schema:
+        type: string
+    providerId:
+      name: providerId
+      in: path
+      description: local identifier of a provider
+      required: true
+      schema:
+        type: string
   schemas:
     landingPage:
       type: object
@@ -107,15 +135,6 @@ components:
           type: string
       required:
       - code
-    confClasses:
-      type: object
-      required:
-      - conformsTo
-      properties:
-        conformsTo:
-          type: array
-          items:
-            type: string
     collections:
       type: object
       required:
@@ -200,6 +219,15 @@ components:
       required:
       - href
       - rel
+    confClasses:
+      type: object
+      required:
+      - conformsTo
+      properties:
+        conformsTo:
+          type: array
+          items:
+            type: string
     extent:
       type: object
       description: 'The extent of the features in the collection. In the Core only spatial and temporal
@@ -277,9 +305,10 @@ components:
                 minItems: 2
                 maxItems: 2
                 items:
-                  type: string
+                  type:
+                  - string
+                  - 'null'
                   format: date-time
-                  nullable: true
                 example:
                 - '2011-11-11T12:22:11Z'
                 - null
@@ -358,8 +387,6 @@ components:
         text/html:
           schema:
             type: string
-    NotFound:
-      description: The requested URI was not found.
     LandingPage:
       description: "The landing page provides links to the API definition \n(link relations `service-desc` and `service-doc`), \nthe Conformance declaration (path `/conformance`, \nlink relation `conformance`), and the Feature \nCollections (path `/collections`, link relation \n`data`)."
       content:
@@ -408,15 +435,8 @@ components:
         text/html:
           schema:
             type: string
-    ServerError:
-      description: A server error occurred.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/exception'
-        text/html:
-          schema:
-            type: string
+    NotFound:
+      description: The requested URI was not found.
     Collection:
       description: "Information about the feature collection with id `collectionId`.\n\nThe response contains a linkto the items in the collection \n(path `/collections/{collectionId}/items`,link relation `items`) \nas well as key information about the collection. This information \nincludes:\n\n* A local identifier for the collection that is unique for the dataset;\n* A list of coordinate reference systems (CRS) in which geometries may be returned by the server. The first CRS is the default coordinate reference system (the default is always WGS 84 with axis order longitude/latitude);\n* An optional title and description for the collection;\n* An optional extent that can be used to provide an indication of the spatial and temporal extent of the collection - typically derived from the data;\n* An optional indicator about the type of the items in the collection (the default value, if the indicator is not provided, is 'feature')."
       content:
@@ -458,35 +478,12 @@ components:
         text/html:
           schema:
             type: string
-  parameters:
-    providerId:
-      name: providerId
-      in: path
-      description: local identifier of a provider
-      required: true
-      schema:
-        type: string
-    collectionId:
-      name: collectionId
-      in: path
-      description: local identifier of a collection
-      required: true
-      schema:
-        type: string
-    collections:
-      name: collections
-      in: query
-      description: 'The collections search parameter is a list of of collection IDs for Items to match.
-
-        Only items that are included in one of these collections will be returned, otherwise
-
-        all collections will be searched.
-
-        '
-      required: false
-      schema:
-        type: array
-        minItems: 1
-        items:
-          type: string
-      explode: false
+    ServerError:
+      description: A server error occurred.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/exception'
+        text/html:
+          schema:
+            type: string

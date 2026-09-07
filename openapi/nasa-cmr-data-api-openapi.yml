@@ -1,14 +1,10 @@
-swagger: '2.0'
+openapi: 3.2.0
 info:
   title: CMR Search Capabilities Data API
   version: 1.0.0
   description: CMR Search API
-host: cmr.earthdata.nasa.gov
-basePath: /search
-schemes:
-- https
-consumes: []
-produces: []
+servers:
+- url: https://cmr.earthdata.nasa.gov/search
 tags:
 - name: Data
   description: access to data (features)
@@ -70,30 +66,6 @@ paths:
           $ref: '#/components/responses/ServerError'
 components:
   schemas:
-    featureGeoJSON:
-      type: object
-      required:
-      - type
-      - geometry
-      - properties
-      properties:
-        type:
-          type: string
-          enum:
-          - Feature
-        geometry:
-          $ref: '#/components/schemas/geometryGeoJSON'
-        properties:
-          type: object
-          nullable: true
-        id:
-          oneOf:
-          - type: string
-          - type: integer
-        links:
-          type: array
-          items:
-            $ref: '#/components/schemas/link'
     exception:
       type: object
       description: 'Information about the exception: an error code plus an optional description.'
@@ -104,6 +76,30 @@ components:
           type: string
       required:
       - code
+    geometryGeoJSON:
+      oneOf:
+      - $ref: '#/components/schemas/pointGeoJSON'
+      - $ref: '#/components/schemas/multipointGeoJSON'
+      - $ref: '#/components/schemas/linestringGeoJSON'
+      - $ref: '#/components/schemas/multilinestringGeoJSON'
+      - $ref: '#/components/schemas/polygonGeoJSON'
+      - $ref: '#/components/schemas/multipolygonGeoJSON'
+      - $ref: '#/components/schemas/geometrycollectionGeoJSON'
+    pointGeoJSON:
+      type: object
+      required:
+      - type
+      - coordinates
+      properties:
+        type:
+          type: string
+          enum:
+          - Point
+        coordinates:
+          type: array
+          minItems: 2
+          items:
+            type: number
     link:
       type: object
       properties:
@@ -150,37 +146,6 @@ components:
               minItems: 2
               items:
                 type: number
-    multipolygonGeoJSON:
-      type: object
-      required:
-      - type
-      - coordinates
-      properties:
-        type:
-          type: string
-          enum:
-          - MultiPolygon
-        coordinates:
-          type: array
-          items:
-            type: array
-            items:
-              type: array
-              minItems: 4
-              items:
-                type: array
-                minItems: 2
-                items:
-                  type: number
-    geometryGeoJSON:
-      oneOf:
-      - $ref: '#/components/schemas/pointGeoJSON'
-      - $ref: '#/components/schemas/multipointGeoJSON'
-      - $ref: '#/components/schemas/linestringGeoJSON'
-      - $ref: '#/components/schemas/multilinestringGeoJSON'
-      - $ref: '#/components/schemas/polygonGeoJSON'
-      - $ref: '#/components/schemas/multipolygonGeoJSON'
-      - $ref: '#/components/schemas/geometrycollectionGeoJSON'
     linestringGeoJSON:
       type: object
       required:
@@ -219,6 +184,67 @@ components:
               minItems: 2
               items:
                 type: number
+    featureGeoJSON:
+      type: object
+      required:
+      - type
+      - geometry
+      - properties
+      properties:
+        type:
+          type: string
+          enum:
+          - Feature
+        geometry:
+          $ref: '#/components/schemas/geometryGeoJSON'
+        properties:
+          type:
+          - object
+          - 'null'
+        id:
+          oneOf:
+          - type: string
+          - type: integer
+        links:
+          type: array
+          items:
+            $ref: '#/components/schemas/link'
+    geometrycollectionGeoJSON:
+      type: object
+      required:
+      - type
+      - geometries
+      properties:
+        type:
+          type: string
+          enum:
+          - GeometryCollection
+        geometries:
+          type: array
+          items:
+            $ref: '#/components/schemas/geometryGeoJSON'
+    multipolygonGeoJSON:
+      type: object
+      required:
+      - type
+      - coordinates
+      properties:
+        type:
+          type: string
+          enum:
+          - MultiPolygon
+        coordinates:
+          type: array
+          items:
+            type: array
+            items:
+              type: array
+              minItems: 4
+              items:
+                type: array
+                minItems: 2
+                items:
+                  type: number
     featureCollectionGeoJSON:
       type: object
       required:
@@ -246,35 +272,6 @@ components:
         numberReturned:
           type: integer
           minimum: 0
-    geometrycollectionGeoJSON:
-      type: object
-      required:
-      - type
-      - geometries
-      properties:
-        type:
-          type: string
-          enum:
-          - GeometryCollection
-        geometries:
-          type: array
-          items:
-            $ref: '#/components/schemas/geometryGeoJSON'
-    pointGeoJSON:
-      type: object
-      required:
-      - type
-      - coordinates
-      properties:
-        type:
-          type: string
-          enum:
-          - Point
-        coordinates:
-          type: array
-          minItems: 2
-          items:
-            type: number
     multipointGeoJSON:
       type: object
       required:
@@ -293,10 +290,57 @@ components:
             items:
               type: number
   parameters:
+    collectionId:
+      name: collectionId
+      in: path
+      description: local identifier of a collection
+      required: true
+      schema:
+        type: string
     featureId:
       name: featureId
       in: path
       description: local identifier of a feature
+      required: true
+      schema:
+        type: string
+    datetime:
+      name: datetime
+      in: query
+      description: 'Either a date-time or an interval, open or closed. Date and time expressions
+
+        adhere to RFC 3339. Open intervals are expressed using double-dots.
+
+
+        Examples:
+
+
+        * A date-time: "2018-02-12T23:20:50Z"
+
+        * A closed interval: "2018-02-12T00:00:00Z/2018-03-18T12:31:12Z"
+
+        * Open intervals: "2018-02-12T00:00:00Z/.." or "../2018-03-18T12:31:12Z"
+
+
+        Only features that have a temporal property that intersects the value of
+
+        `datetime` are selected.
+
+
+        If a feature has multiple temporal properties, it is the decision of the
+
+        server whether only a single temporal property is used to determine
+
+        the extent or all relevant temporal properties.'
+      required: false
+      schema:
+        type: string
+      style: form
+      explode: false
+    providerId:
+      name: providerId
+      in: path
+      description: local identifier of a provider
       required: true
       schema:
         type: string
@@ -353,46 +397,6 @@ components:
           type: number
       style: form
       explode: false
-    collectionId:
-      name: collectionId
-      in: path
-      description: local identifier of a collection
-      required: true
-      schema:
-        type: string
-    datetime:
-      name: datetime
-      in: query
-      description: 'Either a date-time or an interval, open or closed. Date and time expressions
-
-        adhere to RFC 3339. Open intervals are expressed using double-dots.
-
-
-        Examples:
-
-
-        * A date-time: "2018-02-12T23:20:50Z"
-
-        * A closed interval: "2018-02-12T00:00:00Z/2018-03-18T12:31:12Z"
-
-        * Open intervals: "2018-02-12T00:00:00Z/.." or "../2018-03-18T12:31:12Z"
-
-
-        Only features that have a temporal property that intersects the value of
-
-        `datetime` are selected.
-
-
-        If a feature has multiple temporal properties, it is the decision of the
-
-        server whether only a single temporal property is used to determine
-
-        the extent or all relevant temporal properties.'
-      required: false
-      schema:
-        type: string
-      style: form
-      explode: false
     limit:
       name: limit
       in: query
@@ -413,13 +417,6 @@ components:
         default: 10
       style: form
       explode: false
-    providerId:
-      name: providerId
-      in: path
-      description: local identifier of a provider
-      required: true
-      schema:
-        type: string
   responses:
     Feature:
       description: 'fetch the feature with id `featureId` in the feature collection
@@ -459,8 +456,6 @@ components:
         text/html:
           schema:
             type: string
-    NotFound:
-      description: The requested URI was not found.
     InvalidParameter:
       description: A query parameter has an invalid value.
       content:
@@ -527,3 +522,5 @@ components:
         text/html:
           schema:
             type: string
+    NotFound:
+      description: The requested URI was not found.
