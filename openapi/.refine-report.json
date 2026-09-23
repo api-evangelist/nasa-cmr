@@ -1,14 +1,12 @@
 {
   "provider": "nasa-cmr",
   "sources": [
-    "nasa-cmr-capabilities-api-openapi.yml",
-    "nasa-cmr-collections-api-openapi.yml",
-    "nasa-cmr-data-api-openapi.yml",
-    "nasa-cmr-stac-api-openapi.yml"
+    "_original/nasa-cmr-search-openapi.json",
+    "_original/nasa-cmr-stac-openapi.json"
   ],
   "outputs": [
-    "nasa-cmr-capabilities-api-openapi.yml",
     "nasa-cmr-collections-api-openapi.yml",
+    "nasa-cmr-capabilities-api-openapi.yml",
     "nasa-cmr-data-api-openapi.yml",
     "nasa-cmr-stac-api-openapi.yml"
   ],
@@ -16,11 +14,15 @@
   "errors": [],
   "warnings": [],
   "notes": [
-    "nasa-cmr-capabilities-api-openapi.yml: upgraded swagger 2.0 -> OpenAPI 3.2.0",
-    "nasa-cmr-collections-api-openapi.yml: upgraded swagger 2.0 -> OpenAPI 3.2.0",
-    "nasa-cmr-data-api-openapi.yml: upgraded swagger 2.0 -> OpenAPI 3.2.0",
-    "nasa-cmr-stac-api-openapi.yml: upgraded swagger 2.0 -> OpenAPI 3.2.0",
+    "sourced from openapi/_original/ (2 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "nasa-cmr-search-openapi.json: upgraded swagger 2.0 -> OpenAPI 3.2.0",
+    "nasa-cmr-stac-openapi.json: upgraded openapi 3.0.1 -> OpenAPI 3.2.0",
     "apis.yml register: already-registered"
   ],
-  "skipped": []
+  "skipped": [
+    "nasa-cmr-capabilities-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "nasa-cmr-collections-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "nasa-cmr-data-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "nasa-cmr-stac-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }
