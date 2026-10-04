@@ -89,85 +89,6 @@ paths:
           $ref: '#/components/responses/ServerError'
 components:
   schemas:
-    collection:
-      type: object
-      required:
-      - id
-      - links
-      properties:
-        id:
-          description: identifier of the collection used, for example, in URIs
-          type: string
-          example: address
-        title:
-          description: human readable title of the collection
-          type: string
-          example: address
-        description:
-          description: a description of the features in the collection
-          type: string
-          example: An address.
-        links:
-          type: array
-          items:
-            $ref: '#/components/schemas/link'
-          example:
-          - href: http://data.example.com/buildings
-            rel: item
-          - href: http://example.com/concepts/buildings.html
-            rel: describedBy
-            type: text/html
-        extent:
-          $ref: '#/components/schemas/extent'
-        itemType:
-          description: indicator about the type of the items in the collection (the default value is 'feature').
-          type: string
-          default: feature
-        crs:
-          description: the list of coordinate reference systems supported by the service
-          type: array
-          items:
-            type: string
-          default:
-          - http://www.opengis.net/def/crs/OGC/1.3/CRS84
-          example:
-          - http://www.opengis.net/def/crs/OGC/1.3/CRS84
-          - http://www.opengis.net/def/crs/EPSG/0/4326
-    link:
-      type: object
-      properties:
-        href:
-          type: string
-          example: http://www.geoserver.example/stac/naip/child/catalog.json
-          format: url
-        rel:
-          type: string
-          example: child
-        type:
-          type: string
-          example: application/json
-        hreflang:
-          type: string
-          example: en
-        title:
-          type: string
-          example: NAIP Child Catalog
-        length:
-          type: integer
-      title: Link
-      description: A generic link.
-      required:
-      - href
-      - rel
-    confClasses:
-      type: object
-      required:
-      - conformsTo
-      properties:
-        conformsTo:
-          type: array
-          items:
-            type: string
     collections:
       type: object
       required:
@@ -182,21 +103,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/collection'
-    landingPage:
-      type: object
-      required:
-      - links
-      properties:
-        title:
-          type: string
-          example: Buildings in Bonn
-        description:
-          type: string
-          example: Access to data about buildings in the city of Bonn via a Web API that conforms to the OGC API Features specification.
-        links:
-          type: array
-          items:
-            $ref: '#/components/schemas/link'
     extent:
       type: object
       description: 'The extent of the features in the collection. In the Core only spatial and temporal
@@ -305,16 +211,103 @@ components:
           type: string
       required:
       - code
-  responses:
-    ServerError:
-      description: A server error occurred.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/exception'
-        text/html:
-          schema:
+    landingPage:
+      type: object
+      required:
+      - links
+      properties:
+        title:
+          type: string
+          example: Buildings in Bonn
+        description:
+          type: string
+          example: Access to data about buildings in the city of Bonn via a Web API that conforms to the OGC API Features specification.
+        links:
+          type: array
+          items:
+            $ref: '#/components/schemas/link'
+    link:
+      type: object
+      properties:
+        href:
+          type: string
+          example: http://www.geoserver.example/stac/naip/child/catalog.json
+          format: url
+        rel:
+          type: string
+          example: child
+        type:
+          type: string
+          example: application/json
+        hreflang:
+          type: string
+          example: en
+        title:
+          type: string
+          example: NAIP Child Catalog
+        length:
+          type: integer
+      title: Link
+      description: A generic link.
+      required:
+      - href
+      - rel
+    confClasses:
+      type: object
+      required:
+      - conformsTo
+      properties:
+        conformsTo:
+          type: array
+          items:
             type: string
+    collection:
+      type: object
+      required:
+      - id
+      - links
+      properties:
+        id:
+          description: identifier of the collection used, for example, in URIs
+          type: string
+          example: address
+        title:
+          description: human readable title of the collection
+          type: string
+          example: address
+        description:
+          description: a description of the features in the collection
+          type: string
+          example: An address.
+        links:
+          type: array
+          items:
+            $ref: '#/components/schemas/link'
+          example:
+          - href: http://data.example.com/buildings
+            rel: item
+          - href: http://example.com/concepts/buildings.html
+            rel: describedBy
+            type: text/html
+        extent:
+          $ref: '#/components/schemas/extent'
+        itemType:
+          description: indicator about the type of the items in the collection (the default value is 'feature').
+          type: string
+          default: feature
+        crs:
+          description: the list of coordinate reference systems supported by the service
+          type: array
+          items:
+            type: string
+          default:
+          - http://www.opengis.net/def/crs/OGC/1.3/CRS84
+          example:
+          - http://www.opengis.net/def/crs/OGC/1.3/CRS84
+          - http://www.opengis.net/def/crs/EPSG/0/4326
+  responses:
+    NotFound:
+      description: The requested URI was not found.
     Collection:
       description: "Information about the feature collection with id `collectionId`.\n\nThe response contains a linkto the items in the collection \n(path `/collections/{collectionId}/items`,link relation `items`) \nas well as key information about the collection. This information \nincludes:\n\n* A local identifier for the collection that is unique for the dataset;\n* A list of coordinate reference systems (CRS) in which geometries may be returned by the server. The first CRS is the default coordinate reference system (the default is always WGS 84 with axis order longitude/latitude);\n* An optional title and description for the collection;\n* An optional extent that can be used to provide an indication of the spatial and temporal extent of the collection - typically derived from the data;\n* An optional indicator about the type of the items in the collection (the default value, if the indicator is not provided, is 'feature')."
       content:
@@ -356,8 +349,63 @@ components:
         text/html:
           schema:
             type: string
-    NotFound:
-      description: The requested URI was not found.
+    ConformanceDeclaration:
+      description: "The URIs of all conformance classes supported by the server.\n\nTo support \"generic\" clients that want to access multiple \nOGC API Features implementations - and not \"just\" a specific \nAPI / server, the server declares the conformance \nclasses it implements and conforms to."
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/confClasses'
+          example:
+            conformsTo:
+            - http://www.opengis.net/spec/ogcapi-features-1/1.0/conf/core
+            - http://www.opengis.net/spec/ogcapi-features-1/1.0/conf/oas30
+            - http://www.opengis.net/spec/ogcapi-features-1/1.0/conf/html
+            - http://www.opengis.net/spec/ogcapi-features-1/1.0/conf/geojson
+        text/html:
+          schema:
+            type: string
+    ServerError:
+      description: A server error occurred.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/exception'
+        text/html:
+          schema:
+            type: string
+    LandingPage:
+      description: "The landing page provides links to the API definition \n(link relations `service-desc` and `service-doc`), \nthe Conformance declaration (path `/conformance`, \nlink relation `conformance`), and the Feature \nCollections (path `/collections`, link relation \n`data`)."
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/landingPage'
+          example:
+            title: Buildings in Bonn
+            description: Access to data about buildings in the city of Bonn via a Web API that conforms to the OGC API Features specification.
+            links:
+            - href: http://data.example.org/
+              rel: self
+              type: application/json
+              title: this document
+            - href: http://data.example.org/api
+              rel: service-desc
+              type: application/vnd.oai.openapi+json;version=3.0
+              title: the API definition
+            - href: http://data.example.org/api.html
+              rel: service-doc
+              type: text/html
+              title: the API documentation
+            - href: http://data.example.org/conformance
+              rel: conformance
+              type: application/json
+              title: OGC API conformance classes implemented by this server
+            - href: http://data.example.org/collections
+              rel: data
+              type: application/json
+              title: Information about the feature collections
+        text/html:
+          schema:
+            type: string
     Collections:
       description: "The feature collections shared by this API.\n\nThe dataset is organized as one or more feature collections. This resource \nprovides information about and access to the collections. \n\nThe response contains the list of collections. For each collection, a link \nto the items in the collection (path `/collections/{collectionId}/items`, \nlink relation `items`) as well as key information about the collection. \nThis information includes:\n\n* A local identifier for the collection that is unique for the dataset;\n* A list of coordinate reference systems (CRS) in which geometries may be returned by the server. The first CRS is the default coordinate reference system (the default is always WGS 84 with axis order longitude/latitude);\n* An optional title and description for the collection;\n* An optional extent that can be used to provide an indication of the spatial and temporal extent of the collection - typically derived from the data;\n* An optional indicator about the type of the items in the collection (the default value, if the indicator is not provided, is 'feature')."
       content:
@@ -418,69 +466,7 @@ components:
         text/html:
           schema:
             type: string
-    ConformanceDeclaration:
-      description: "The URIs of all conformance classes supported by the server.\n\nTo support \"generic\" clients that want to access multiple \nOGC API Features implementations - and not \"just\" a specific \nAPI / server, the server declares the conformance \nclasses it implements and conforms to."
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/confClasses'
-          example:
-            conformsTo:
-            - http://www.opengis.net/spec/ogcapi-features-1/1.0/conf/core
-            - http://www.opengis.net/spec/ogcapi-features-1/1.0/conf/oas30
-            - http://www.opengis.net/spec/ogcapi-features-1/1.0/conf/html
-            - http://www.opengis.net/spec/ogcapi-features-1/1.0/conf/geojson
-        text/html:
-          schema:
-            type: string
-    LandingPage:
-      description: "The landing page provides links to the API definition \n(link relations `service-desc` and `service-doc`), \nthe Conformance declaration (path `/conformance`, \nlink relation `conformance`), and the Feature \nCollections (path `/collections`, link relation \n`data`)."
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/landingPage'
-          example:
-            title: Buildings in Bonn
-            description: Access to data about buildings in the city of Bonn via a Web API that conforms to the OGC API Features specification.
-            links:
-            - href: http://data.example.org/
-              rel: self
-              type: application/json
-              title: this document
-            - href: http://data.example.org/api
-              rel: service-desc
-              type: application/vnd.oai.openapi+json;version=3.0
-              title: the API definition
-            - href: http://data.example.org/api.html
-              rel: service-doc
-              type: text/html
-              title: the API documentation
-            - href: http://data.example.org/conformance
-              rel: conformance
-              type: application/json
-              title: OGC API conformance classes implemented by this server
-            - href: http://data.example.org/collections
-              rel: data
-              type: application/json
-              title: Information about the feature collections
-        text/html:
-          schema:
-            type: string
   parameters:
-    providerId:
-      name: providerId
-      in: path
-      description: local identifier of a provider
-      required: true
-      schema:
-        type: string
-    collectionId:
-      name: collectionId
-      in: path
-      description: local identifier of a collection
-      required: true
-      schema:
-        type: string
     collections:
       name: collections
       in: query
@@ -498,3 +484,17 @@ components:
         items:
           type: string
       explode: false
+    providerId:
+      name: providerId
+      in: path
+      description: local identifier of a provider
+      required: true
+      schema:
+        type: string
+    collectionId:
+      name: collectionId
+      in: path
+      description: local identifier of a collection
+      required: true
+      schema:
+        type: string
