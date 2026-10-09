@@ -1,3 +1,7 @@
+# Provenance stamped 2026-10-07 (roadmap#943): written by an API Evangelist sweep (undated — the file carries no date and git cannot supply one), not
+# harvested from the provider. `method: generated` so the economics campaign may replace it with a
+# dated, verbatim transcription; every figure below is unverified until it does.
+method: generated
 name: NASA CMR Plans and Pricing
 description: >
   Access plans and pricing for the NASA Common Metadata Repository (CMR) APIs.
@@ -60,3 +64,27 @@ plans:
       - Revision history for all metadata changes
       - Requires EDL Bearer Token (Level 4 MFA) or Launchpad SAML Token (Level 5)
       - Provider-specific ACL authorization required
+x-canonical:
+  generated: '2026-10-08'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models: []
+  units: []
+  plans:
+  - name: Public Search (Anonymous)
+    access: other
+    model: unstated
+    model_how: derived
+    units: []
+    periods: []
+  - name: Authenticated Search (EDL Token)
+    access: other
+    model: unstated
+    model_how: derived
+    units: []
+    periods: []
+  - name: Provider Ingest Access
+    access: other
+    model: unstated
+    model_how: derived
+    units: []
+    periods: []
