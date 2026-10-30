@@ -66,46 +66,164 @@
 
 NASA Common Metadata Repository (CMR) is a high-performance metadata system that catalogs Earth science data collections, granules, variables, services, and tools across NASA data centers. It provides REST, GraphQL, STAC, OpenSearch, and CSW interfaces for discovering, searching, and ingesting metadata for satellite and Earth observation datasets spanning decades of NASA missions.
 
-This repository contains an APIs.json 0.19 profile for the NASA CMR API suite maintained by [api-evangelist](https://github.com/api-evangelist).
+**Areas:** NASA · Earth Science · Satellite Data · Remote Sensing · Geospatial · Open Data · Metadata · Collection · Granules
 
-## APIs
+## NASA CMR on APIs.io
 
-| API | Base URL | Description |
-|-----|----------|-------------|
-| CMR Search | `https://cmr.earthdata.nasa.gov/search` | RESTful search across collections, granules, variables, services, and tools |
-| CMR Ingest | `https://cmr.earthdata.nasa.gov/ingest` | Create and update metadata records (provider auth required) |
-| CMR Access Control | `https://cmr.earthdata.nasa.gov/access-control` | Manage ACLs and check user permissions |
-| CMR GraphQL | `https://graphql.earthdata.nasa.gov/api` | Unified GraphQL interface to all CMR resources |
-| CMR STAC | `https://cmr.earthdata.nasa.gov/stac` | STAC-compliant catalog organized by provider |
-| CMR OpenSearch | `https://cmr.earthdata.nasa.gov/opensearch` | OpenSearch-compliant discovery interface |
+Everything profiled for NASA CMR is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/nasa-cmr/](https://apis.io/providers/nasa-cmr/)** — or go straight to one of the APIs or properties below.
 
-## Authentication
+### APIs (9)
 
-- **Public search**: No authentication required for publicly available metadata
-- **Restricted collections**: EDL Bearer Token (`Authorization: Bearer <token>`) from [Earthdata Login](https://urs.earthdata.nasa.gov/)
-- **Metadata ingest**: EDL Bearer Token (Level 4 MFA) or Launchpad SAML Token (Level 5), plus provider ACL authorization
+- [CMR Ingest API](https://apis.io/apis/nasa-cmr/cmr-ingest/) — REST API for creating, updating, and deleting metadata records in the Common Metadata Repository. Supports collections, granules, variables, services,…
+- [CMR Access Control API](https://apis.io/apis/nasa-cmr/cmr-access-control/) — REST API for managing Access Control Lists (ACLs) and checking user permissions across CMR concepts. Supports system, provider, single-instance, and…
+- [CMR GraphQL API](https://apis.io/apis/nasa-cmr/cmr-graphql/) — Unified GraphQL interface for querying the Common Metadata Repository. Provides a single endpoint to search collections, granules, variables, tools,…
+- [CMR STAC API](https://apis.io/apis/nasa-cmr/cmr-stac/) — SpatioTemporal Asset Catalog (STAC) compliant API wrapping the CMR Search API. Organizes the full NASA CMR catalog by provider and enables discovery of STAC…
+- [CMR OpenSearch API](https://apis.io/apis/nasa-cmr/cmr-opensearch/) — OpenSearch-compliant API wrapper for CMR Search enabling standard OpenSearch client integration. Supports collection discovery with spatial and temporal…
+- [NASA CMR Capabilities API](https://apis.io/apis/nasa-cmr/nasa-cmr-capabilities-api/) — essential characteristics of this API
+- [NASA CMR Collections API](https://apis.io/apis/nasa-cmr/nasa-cmr-collections-api/) — Collection Search
+- [NASA CMR Data API](https://apis.io/apis/nasa-cmr/nasa-cmr-data-api/) — access to data (features)
+- [NASA CMR STAC API](https://apis.io/apis/nasa-cmr/nasa-cmr-stac-api/) — Extension to WFS3 Core to support STAC metadata model and search API
 
-## Rate Limits
+### Published properties
 
-CMR does not publish fixed numeric rate limits. Throttling rules are applied per request signature. HTTP 429 responses include a `retry-after` header that clients must honor. Key constraints:
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-- Request timeout: 180 seconds (170s internal, returns partial results)
-- Max page size: 2,000 results (default: 10)
-- Max GET URL length: 6,000 characters (use POST for complex queries)
-- Deep paging limit: 1 million items via `CMR-Search-After` header
+#### GraphQL (1)
 
-## Pricing
+GraphQL schemas.
 
-All CMR APIs are free public services. No subscription fees, per-request charges, or registration costs apply. Data file access (granule downloads) may incur egress charges at the DAAC level.
+- [NASA CMR GraphQL API](https://apis.io/graphqls/nasa-cmr/nasa-cmr-graphql/)
 
-## Resources
+#### Agentic access (1)
 
-- [CMR Search API Docs](https://cmr.earthdata.nasa.gov/search/site/docs/search/api.html)
-- [CMR Ingest API Docs](https://cmr.earthdata.nasa.gov/ingest/site/docs/ingest/api.html)
-- [CMR Access Control API Docs](https://cmr.earthdata.nasa.gov/access-control/site/docs/access-control/api.html)
-- [CMR GraphQL Docs](https://graphql.earthdata.nasa.gov/docs/introduction/introduction/)
-- [CMR STAC GitHub](https://github.com/nasa/cmr-stac)
-- [CMR Source Code](https://github.com/nasa/Common-Metadata-Repository)
-- [Earthdata Login](https://urs.earthdata.nasa.gov/)
-- [Earthdata Forum](https://forum.earthdata.nasa.gov/)
-- [Status Page](https://status.earthdata.nasa.gov/)
+Which operations an agent can call, which act, and which need a human in the loop.
+
+- [Nasa Cmr Agentic Access](https://apis.io/agentic-access/nasa-cmr/nasa-cmr-agentic-access/)
+
+#### JSON Schema (6)
+
+The data models the API reads and writes.
+
+- [NASA CMR STAC Collection](https://apis.io/schemas/nasa-cmr/nasa-cmr-stac-collection/)
+- [NASA CMR STAC Featurecollectiongeojson](https://apis.io/schemas/nasa-cmr/nasa-cmr-stac-featureCollectionGeoJSON/)
+- [NASA CMR STAC Featuregeojson](https://apis.io/schemas/nasa-cmr/nasa-cmr-stac-featureGeoJSON/)
+- [NASA CMR STAC Landingpage](https://apis.io/schemas/nasa-cmr/nasa-cmr-stac-landingPage/)
+- [Link](https://apis.io/schemas/nasa-cmr/nasa-cmr-stac-link/)
+- [NASA CMR STAC Searchbody](https://apis.io/schemas/nasa-cmr/nasa-cmr-stac-searchBody/)
+
+#### JSON-LD (2)
+
+Linked-data contexts for the provider's vocabulary.
+
+- [Nasa Cmr Context](https://apis.io/jsonld/nasa-cmr/nasa-cmr-context/)
+- [Nasa Cmr Dataset Context](https://apis.io/jsonld/nasa-cmr/nasa-cmr-dataset/)
+
+#### Examples (4)
+
+Example requests and responses.
+
+- [Nasa Cmr Ingest Collection Request](https://apis.io/examples/nasa-cmr/nasa-cmr-ingest-collection-request/)
+- [Nasa Cmr Search Collections Response](https://apis.io/examples/nasa-cmr/nasa-cmr-search-collections-response/)
+- [Nasa Cmr Search Granules Response](https://apis.io/examples/nasa-cmr/nasa-cmr-search-granules-response/)
+- [Nasa Cmr Stac Landing Page](https://apis.io/examples/nasa-cmr/nasa-cmr-stac-landing-page/)
+
+#### Collections (4)
+
+Postman and Open Collection request collections.
+
+- [CMR Search Capabilities API](https://apis.io/collections/nasa-cmr/open-nasa-cmr-capabilities-api/)
+- [CMR Search Capabilities Collections API](https://apis.io/collections/nasa-cmr/open-nasa-cmr-collections-api/)
+- [CMR Search Capabilities Data API](https://apis.io/collections/nasa-cmr/open-nasa-cmr-data-api/)
+- [CMR Search Capabilities STAC API](https://apis.io/collections/nasa-cmr/open-nasa-cmr-stac-api/)
+
+#### Governance rules (1)
+
+Spectral rulesets for the provider's contracts.
+
+- [NASA CMR — jsonschema rules](https://apis.io/rules/nasa-cmr/nasa-cmr-jsonschema-spectral-rules/)
+
+#### Security (1)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Nasa Cmr Domain Security](https://apis.io/security/nasa-cmr/nasa-cmr-domain-security/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Nasa Cmr Plans Pricing](https://apis.io/plans/nasa-cmr/nasa-cmr-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Nasa Cmr Rate Limits](https://apis.io/rate-limits/nasa-cmr/nasa-cmr-rate-limits/)
+
+#### FinOps (1)
+
+What the API costs to run, by operation.
+
+- [Nasa Cmr Finops](https://apis.io/finops/nasa-cmr/nasa-cmr-finops/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://www.earthdata.nasa.gov/about/esdis/eosdis/cmr)
+- [Documentation](https://www.earthdata.nasa.gov/engage/open-data-services-software/earthdata-developer-portal/cmr-api)
+- [Blog](https://www.earthdata.nasa.gov/news)
+- [Status](https://status.earthdata.nasa.gov/)
+
+## API Evangelist rating
+
+**Kin Score 33.4** — thin · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 66.1 |
+| Contract quality | 55.7 |
+| Contract governance | 9.8 |
+| Operational transparency | 44.7 |
+| Developer ergonomics | 16.7 |
+| Access clarity | 14.5 |
+
+**Agent readiness 15.4** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | — |
+| Idempotency | — |
+| Error Semantics | — |
+| OpenAPI Examples | — |
+| Rate Limit Signal | derived (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 10.8** — Government & Public Sector
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/nasa-cmr/](https://apis.io/providers/nasa-cmr/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for NASA CMR: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/nasa-cmr/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
